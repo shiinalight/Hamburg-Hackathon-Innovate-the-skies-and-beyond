@@ -27,7 +27,13 @@
                         class="badge">2</span></a>
                 <a href="#" class="nav-item" onclick="navigateTo('screen-profile')">Profile</a>
             </div>
-            <button class="icon-btn"><i class="fa-regular fa-bell"></i></button>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="points-display" id="user-points">
+                    <i class="fa-solid fa-star"></i>
+                    <span>150 pts</span>
+                </div>
+                <button class="icon-btn"><i class="fa-regular fa-bell"></i></button>
+            </div>
         </nav>
 
         <!-- SCREEN 1: Home -->
@@ -149,194 +155,224 @@
                         <input type="text" id="input-destination" placeholder="Search Airport or Destination"
                             value="Alexanderplatz">
                     </div>
-                </div>
-
-                <div class="form-section">
-                    <p class="section-label">Timing</p>
-                    <h2 class="section-title">Arrival Window</h2>
-                    <div class="pill-group">
-                        <button class="pill active">Now (00m)</button>
-                        <button class="pill">Today</button>
-                        <button class="pill">Tomorrow</button>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <p class="section-label">Preferences</p>
-                    <h2 class="section-title">Match Me With...</h2>
-
-                    <div class="select-group">
-                        <label class="field-label">Preferred Language</label>
-                        <select id="select-language">
-                            <option>English</option>
-                            <option>German</option>
-                            <option>Spanish</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down select-icon"></i>
-                    </div>
-
-                    <div class="select-group">
-                        <label class="field-label">Preferred Transport</label>
-                        <select id="select-transport">
-                            <option>Taxi, Public Transit</option>
-                            <option>Ride-share</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down select-icon"></i>
-                    </div>
-
-                    <div class="select-group">
-                        <label class="field-label">Age Group</label>
-                        <select id="select-age">
-                            <option>No Preference</option>
-                            <option>18-24</option>
-                            <option selected>25-35</option>
-                            <option>36-50</option>
-                            <option>51+</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down select-icon"></i>
-                    </div>
-
-                    <div class="select-group">
-                        <label class="field-label">Gender Preference</label>
-                        <select id="select-gender">
-                            <option selected>No Pref</option>
-                            <option>Same as me</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down select-icon"></i>
-                    </div>
-
-                    <div class="select-group">
-                        <label class="field-label">Student Status</label>
-                        <select id="select-student">
-                            <option>Any</option>
-                            <option selected>Yes</option>
-                            <option>No</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down select-icon"></i>
-                    </div>
-
-                    <div class="select-group">
-                        <label class="field-label">Shuttle Capacity</label>
-                        <select id="select-capacity">
-                            <option value="1">1 Person</option>
-                            <option value="2">2 People</option>
-                            <option value="3">3 People</option>
-                            <option selected value="4">4 People (Standard)</option>
-                            <option value="6">6 People (XL)</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down select-icon"></i>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <p class="section-label">The Profile</p>
-                    <h2 class="section-title">Your Role</h2>
-                    <div class="role-grid">
-                        <div class="role-card active">
-                            <i class="fa-solid fa-shuttle-van"></i>
-                            <h3>Join a Shuttle</h3>
-                            <p>I want to join a ride.</p>
-                        </div>
-                        <div class="role-card">
-                            <i class="fa-solid fa-map-location-dot"></i>
-                            <h3>City Host</h3>
-                            <p>I know Berlin well.</p>
+                    <div class="form-section">
+                        <p class="section-label">Flight Details</p>
+                        <h2 class="section-title">Flight Number</h2>
+                        <p class="section-subtitle">We'll match you with others on the same flight!</p>
+                        <div class="input-group">
+                            <i class="fa-solid fa-plane-arrival search-icon"></i>
+                            <input type="text" id="input-flight" placeholder="e.g. LH2024 or EW123" value="">
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="action-footer">
-                <button class="btn btn-primary btn-large" onclick="handleFindShuttles()">Find Similar Shuttles</button>
-            </div>
-        </div>
-
-        <!-- SCREEN 3: Shuttles -->
-        <div id="screen-shuttles" class="screen shuttles-screen">
-            <header class="shuttles-header">
-                <div class="header-top">
-                    <button class="icon-btn dark" onclick="navigateTo('screen-setup')"><i
-                            class="fa-solid fa-arrow-left"></i></button>
-                </div>
-                <h2>Similar Shuttles <span class="found-text">(Top 3)</span></h2>
-            </header>
-
-            <div class="shuttles-list" id="llm-shuttle-list">
-                <!-- LLM will inject matches here -->
-                <div style="padding: 20px; text-align: center; color: var(--text-muted);">
-                    Waiting for your request...
-                </div>
-            </div>
-
-            <div class="action-footer" style="position: static; padding: 20px;">
-                <p style="text-align: center; margin-bottom: 10px; color: var(--text-muted);">Don't see a fit?</p>
-                <button class="btn btn-primary btn-large" onclick="handleCreateShuttle()">Create New Shuttle
-                    Request</button>
-            </div>
-        </div>
-
-        <!-- SCREEN 4: Messages -->
-        <div id="screen-messages" class="screen">
-            <header class="app-header">
-                <h2>Messages</h2>
-            </header>
-            <div class="scroll-content">
-                <div class="message-list">
-                    <div class="message-item unread">
-                        <img src="avatar1.png" alt="Sophie R." class="avatar">
-                        <div class="message-info">
-                            <h4>Sophie R. <span class="time">10:42 AM</span></h4>
-                            <p>Hi! Are you still looking for someone to split a ride to Alexanderplatz?</p>
+                    <div class="form-section">
+                        <p class="section-label">Timing</p>
+                        <h2 class="section-title">Arrival Window</h2>
+                        <div class="pill-group">
+                            <button class="pill active">Now (00m)</button>
+                            <button class="pill">Today</button>
+                            <button class="pill">Tomorrow</button>
                         </div>
                     </div>
-                    <div class="message-item">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Liam K." class="avatar">
-                        <div class="message-info">
-                            <h4>Liam K. <span class="time">Yesterday</span></h4>
-                            <p>Great meeting you! Safe travels.</p>
+
+                    <div class="form-section">
+                        <p class="section-label">Preferences</p>
+                        <h2 class="section-title">Match Me With...</h2>
+
+                        <div class="select-group">
+                            <label class="field-label">Preferred Language</label>
+                            <select id="select-language">
+                                <option>English</option>
+                                <option>German</option>
+                                <option>Spanish</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down select-icon"></i>
+                        </div>
+
+                        <div class="select-group">
+                            <label class="field-label">Preferred Transport</label>
+                            <select id="select-transport">
+                                <option>Taxi, Public Transit</option>
+                                <option>Ride-share</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down select-icon"></i>
+                        </div>
+
+                        <div class="select-group">
+                            <label class="field-label">Age Group</label>
+                            <select id="select-age">
+                                <option>No Preference</option>
+                                <option>18-24</option>
+                                <option selected>25-35</option>
+                                <option>36-50</option>
+                                <option>51+</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down select-icon"></i>
+                        </div>
+
+                        <div class="select-group">
+                            <label class="field-label">Gender Preference</label>
+                            <select id="select-gender">
+                                <option selected>No Pref</option>
+                                <option>Same as me</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down select-icon"></i>
+                        </div>
+
+                        <div class="select-group">
+                            <label class="field-label">Student Status</label>
+                            <select id="select-student">
+                                <option>Any</option>
+                                <option selected>Yes</option>
+                                <option>No</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down select-icon"></i>
+                        </div>
+
+                        <div class="select-group">
+                            <label class="field-label">Shuttle Capacity</label>
+                            <select id="select-capacity">
+                                <option value="1">1 Person</option>
+                                <option value="2">2 People</option>
+                                <option value="3">3 People</option>
+                                <option selected value="4">4 People (Standard)</option>
+                                <option value="6">6 People (XL)</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down select-icon"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <p class="section-label">The Profile</p>
+                        <h2 class="section-title">Your Role</h2>
+                        <div class="role-grid">
+                            <div class="role-card active">
+                                <i class="fa-solid fa-shuttle-van"></i>
+                                <h3>Join a Shuttle</h3>
+                                <p>I want to join a ride.</p>
+                            </div>
+                            <div class="role-card">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                                <h3>City Host</h3>
+                                <p>I know Berlin well.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="action-footer">
+                    <button class="btn btn-primary btn-large" onclick="handleFindShuttles()">Find Similar
+                        Shuttles</button>
+                </div>
+            </div>
+
+            <!-- SCREEN 3: Shuttles -->
+            <div id="screen-shuttles" class="screen shuttles-screen">
+                <header class="shuttles-header">
+                    <div class="header-top">
+                        <button class="icon-btn dark" onclick="navigateTo('screen-setup')"><i
+                                class="fa-solid fa-arrow-left"></i></button>
+                    </div>
+                    <h2>Similar Shuttles <span class="found-text">(Top 3)</span></h2>
+                </header>
+
+                <div class="shuttles-list" id="llm-shuttle-list">
+                    <!-- LLM will inject matches here -->
+                    <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+                        Waiting for your request...
+                    </div>
+                </div>
+
+                <div class="action-footer" style="position: static; padding: 20px;">
+                    <p style="text-align: center; margin-bottom: 10px; color: var(--text-muted);">Don't see a fit?</p>
+                    <button class="btn btn-primary btn-large" onclick="handleCreateShuttle()">Create New Shuttle
+                        Request</button>
+                </div>
+            </div>
+
+            <!-- SCREEN 4: Messages -->
+            <div id="screen-messages" class="screen">
+                <header class="app-header">
+                    <h2>Messages</h2>
+                </header>
+                <div class="scroll-content">
+                    <div class="message-list">
+                        <div class="message-item unread">
+                            <img src="avatar1.png" alt="Sophie R." class="avatar">
+                            <div class="message-info">
+                                <h4>Sophie R. <span class="time">10:42 AM</span></h4>
+                                <p>Hi! Are you still looking for someone to split a ride to Alexanderplatz?</p>
+                            </div>
+                        </div>
+                        <div class="message-item">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Liam K." class="avatar">
+                            <div class="message-info">
+                                <h4>Liam K. <span class="time">Yesterday</span></h4>
+                                <p>Great meeting you! Safe travels.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 5: Profile -->
+            <div id="screen-profile" class="screen">
+                <header class="app-header">
+                    <h2>Profile</h2>
+                </header>
+                <div class="scroll-content">
+                    <div class="profile-header text-center">
+                        <img src="https://randomuser.me/api/portraits/women/40.jpg" alt="My Profile"
+                            class="avatar-large">
+                        <h2>Sarah M.</h2>
+                        <p class="text-muted">Explorer 🌍 | Member since 2024</p>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <h3 id="stat-rides">14</h3>
+                            <p>Rides Shared</p>
+                        </div>
+                        <div class="stat">
+                            <h3 id="stat-co2">120kg</h3>
+                            <p>CO2 Saved</p>
+                        </div>
+                        <div class="stat">
+                            <h3>4.9</h3>
+                            <p>Rating</p>
+                        </div>
+                    </div>
+
+                    <div class="badges-section">
+                        <h3>My Badges</h3>
+                        <div class="badges-grid" id="user-badges">
+                            <!-- Badges injected by JS -->
+                            <div class="badge-item active">
+                                <i class="fa-solid fa-seedling"></i>
+                                <span>Seedling</span>
+                            </div>
+                            <div class="badge-item locked">
+                                <i class="fa-solid fa-shuttle-van"></i>
+                                <span>Driver</span>
+                            </div>
+                            <div class="badge-item locked">
+                                <i class="fa-solid fa-plane"></i>
+                                <span>Skies</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-menu">
+                        <button class="menu-item"><i class="fa-solid fa-user-pen"></i> Edit Profile</button>
+                        <button class="menu-item"><i class="fa-solid fa-gear"></i> Settings</button>
+                        <button class="menu-item"><i class="fa-solid fa-circle-question"></i> Help & Support</button>
+                        <button class="menu-item text-danger"><i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            Logout</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- SCREEN 5: Profile -->
-        <div id="screen-profile" class="screen">
-            <header class="app-header">
-                <h2>Profile</h2>
-            </header>
-            <div class="scroll-content">
-                <div class="profile-header text-center">
-                    <img src="https://randomuser.me/api/portraits/women/40.jpg" alt="My Profile" class="avatar-large">
-                    <h2>Sarah M.</h2>
-                    <p class="text-muted">Explorer 🌍 | Member since 2024</p>
-                </div>
-                <div class="profile-stats">
-                    <div class="stat">
-                        <h3>14</h3>
-                        <p>Rides Shared</p>
-                    </div>
-                    <div class="stat">
-                        <h3>120kg</h3>
-                        <p>CO2 Saved</p>
-                    </div>
-                    <div class="stat">
-                        <h3>4.9</h3>
-                        <p>Rating</p>
-                    </div>
-                </div>
-                <div class="profile-menu">
-                    <button class="menu-item"><i class="fa-solid fa-user-pen"></i> Edit Profile</button>
-                    <button class="menu-item"><i class="fa-solid fa-gear"></i> Settings</button>
-                    <button class="menu-item"><i class="fa-solid fa-circle-question"></i> Help & Support</button>
-                    <button class="menu-item text-danger"><i class="fa-solid fa-arrow-right-from-bracket"></i>
-                        Logout</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+        <script src="script.js"></script>
 </body>
 
 </html>

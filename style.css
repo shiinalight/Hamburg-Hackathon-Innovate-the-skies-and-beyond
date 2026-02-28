@@ -644,6 +644,24 @@ select {
     font-size: 24px;
 }
 
+.points-display {
+    background: var(--secondary-color);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--primary-color);
+    margin-right: 15px;
+}
+
+.points-display i {
+    color: #f4b400;
+}
+
 .nav-links {
     display: flex;
     gap: 32px;
@@ -808,4 +826,65 @@ select {
 
 .menu-item.text-danger i {
     color: #ef4444;
+}
+/* Badges section in profile */
+.badges-section {
+    margin-top: 30px;
+    padding: 0 20px;
+}
+
+.badges-section h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badges-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.badge-item {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: help;
+}
+
+.badge-item.locked {
+    opacity: 0.4;
+    filter: grayscale(1);
+    background: #fdfdfd;
+}
+
+.badge-item i {
+    font-size: 28px;
+    margin-bottom: 6px;
+    display: block;
+    color: var(--primary-color);
+}
+
+.badge-item span {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: block;
+    color: var(--text-main);
+}
+
+.badge-item.active {
+    border-color: var(--accent-color);
+    background: #fffdf0;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.badge-item.active i {
+    color: var(--accent-color);
 }
