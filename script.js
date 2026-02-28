@@ -4,6 +4,8 @@ const GEMINI_API_KEY = 'AIzaSyBDetsR1rDEq3J2S1Wyo9pNabcjKWqSQp8';
 const DB_KEY = 'matchy_shuttles_v1';
 const USER_KEY = 'matchy_user_v1';
 
+let currentShuttleId = null;
+
 // Seed Mock Data if Database is empty
 function initDatabase() {
     const existingShuttles = localStorage.getItem(DB_KEY);
@@ -90,7 +92,7 @@ function showBadgeUnlock(id) {
 }
 
 // Navigation Function
-function navigateTo(screenId) {
+function navigateTo(screenId, params = null) {
     const screens = document.querySelectorAll('.screen');
     screens.forEach(screen => screen.classList.remove('active'));
 
@@ -106,6 +108,22 @@ function navigateTo(screenId) {
         }
     });
 
+    // Control top-nav logo visibility
+    const logo = document.querySelector('.top-nav .logo');
+    if (logo) {
+        if (screenId === 'screen-shuttles') {
+            logo.style.visibility = 'hidden';
+        } else {
+            logo.style.visibility = 'visible';
+        }
+    }
+
+    // Special handling for management screen (Redirecting)
+    if (screenId === 'screen-manage-shuttle') {
+        window.location.href = 'manage.html' + (params && params.id ? '?id=' + params.id : '');
+        return;
+    }
+
     // If entering Shuttles and it's empty, show all available
     if (screenId === 'screen-shuttles') {
         const list = document.getElementById('llm-shuttle-list');
@@ -116,6 +134,100 @@ function navigateTo(screenId) {
     }
 
     window.scrollTo(0, 0);
+}
+
+// Render the Manage Shuttle screen
+function renderManageShuttle(id) {
+    const allShuttles = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+    const shuttle = allShuttles.find(s => s.id == id);
+    if (!shuttle) return;
+
+    currentShuttleId = id;
+
+    document.getElementById('manage-title').innerText = shuttle.title;
+    document.getElementById('manage-dest').innerHTML = `<i class="fa-solid fa-location-dot"></i> ${shuttle.dest}`;
+    document.getElementById('manage-flight-val').innerText = shuttle.flight || 'None';
+    document.getElementById('manage-transport-val').innerText = shuttle.transport;
+    document.getElementById('manage-lang-val').innerText = shuttle.lang || 'English';
+    document.getElementById('manage-pref-val').innerText = shuttle.agePref || 'None';
+    document.getElementById('manage-count').innerText = shuttle.occupied;
+    document.getElementById('manage-cap').innerText = shuttle.capacity;
+
+    // Simulate "other" members if it's not a brand new one
+    const membersList = document.getElementById('manage-members-list');
+    membersList.innerHTML = `
+        <div class="message-item">
+            <img src="${shuttle.avatar || 'https://via.placeholder.com/50'}" class="avatar">
+            <div class="message-info">
+                <h4>${shuttle.host === 'You' ? 'You' : shuttle.host} (Host)</h4>
+                <p>Status: Ready to roll</p>
+            </div>
+        </div>
+    `;
+
+    if (shuttle.occupied > 1) {
+        const mockMembers = [
+            { name: "John D.", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
+            { name: "Sarah W.", avatar: "https://randomuser.me/api/portraits/women/44.jpg" }
+        ];
+        for (let i = 0; i < shuttle.occupied - 1; i++) {
+            const m = mockMembers[i % mockMembers.length];
+            membersList.innerHTML += `
+                <div class="message-item">
+                    <img src="${m.avatar}" class="avatar">
+                    <div class="message-info">
+                        <h4>${m.name}</h4>
+                        <p>Joined just now</p>
+                    </div>
+                </div>
+            `;
+        }
+    }
+}
+
+function editCurrentShuttle() {
+    const allShuttles = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+    const shuttle = allShuttles.find(s => s.id == currentShuttleId);
+    if (!shuttle) return;
+
+    // Fill setup form with current values
+    document.getElementById('input-destination').value = shuttle.dest;
+    document.getElementById('input-flight').value = shuttle.flight || '';
+    document.getElementById('select-transport').value = shuttle.transport;
+    document.getElementById('select-capacity').value = shuttle.capacity;
+
+    navigateTo('screen-setup');
+    // Change button text to "Update"
+    const setupBtn = document.querySelector('#screen-setup .btn-primary');
+    setupBtn.innerText = "Update Shuttle Details";
+    setupBtn.onclick = saveShuttleEdit;
+}
+
+function saveShuttleEdit() {
+    const allShuttles = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+    const idx = allShuttles.findIndex(s => s.id == currentShuttleId);
+    if (idx === -1) return;
+
+    allShuttles[idx].dest = document.getElementById('input-destination').value;
+    allShuttles[idx].flight = document.getElementById('input-flight').value;
+    allShuttles[idx].transport = document.getElementById('select-transport').value;
+    allShuttles[idx].capacity = parseInt(document.getElementById('select-capacity').value);
+    allShuttles[idx].lang = document.getElementById('select-language').value;
+    allShuttles[idx].agePref = document.getElementById('select-age').value;
+
+    if (allShuttles[idx].flight) {
+        allShuttles[idx].title = `Flight ${allShuttles[idx].flight} Shuttle`;
+    }
+
+    localStorage.setItem(DB_KEY, JSON.stringify(allShuttles));
+    alert("Shuttle updated successfully! ✅");
+
+    // Restore original setup button
+    const setupBtn = document.querySelector('#screen-setup .btn-primary');
+    setupBtn.innerText = "Create Shuttle Request";
+    setupBtn.onclick = handleCreateShuttle;
+
+    navigateTo('screen-manage-shuttle', { id: currentShuttleId });
 }
 
 // Handle "Find Similar Shuttles"
@@ -229,7 +341,7 @@ function renderShuttles(matches) {
 function handleJoinShuttle(id) {
     earnPoints(10, 'eco');
     alert("Request Sent! +10 Points Earned 🌿");
-    navigateTo('screen-home');
+    navigateTo('screen-manage-shuttle', { id: id });
 }
 
 // Handle "Create New Shuttle"
@@ -239,8 +351,9 @@ function handleCreateShuttle() {
     const capacity = parseInt(document.getElementById('select-capacity').value);
 
     const allShuttles = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+    const newId = allShuttles.length + 1;
     const newShuttle = {
-        id: allShuttles.length + 1,
+        id: newId,
         host: "You",
         title: flight ? `Flight ${flight} Shuttle` : "Your New Shuttle",
         capacity: capacity || 4,
@@ -250,6 +363,7 @@ function handleCreateShuttle() {
         time: "Now",
         lang: document.getElementById('select-language').value,
         transport: document.getElementById('select-transport').value,
+        agePref: document.getElementById('select-age').value,
         badge: "New Request",
         avatar: "https://randomuser.me/api/portraits/lego/1.jpg"
     };
@@ -259,11 +373,36 @@ function handleCreateShuttle() {
 
     earnPoints(20, 'driver');
     alert(`Shuttle created for ${dest}! +20 Points Earned 🚀`);
-    navigateTo('screen-home');
+    navigateTo('screen-manage-shuttle', { id: newId });
 }
 
 // Initialization on Load
 document.addEventListener('DOMContentLoaded', () => {
     initDatabase();
+
+    // Check for edit mode
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('edit') === 'true') {
+        const editId = localStorage.getItem('matchy_edit_id');
+        if (editId) {
+            currentShuttleId = editId;
+            const all = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            const s = all.find(x => x.id == editId);
+            if (s) {
+                // Pre-fill
+                document.getElementById('input-destination').value = s.dest;
+                document.getElementById('input-flight').value = s.flight || '';
+                document.getElementById('select-transport').value = s.transport;
+                document.getElementById('select-capacity').value = s.capacity;
+
+                navigateTo('screen-setup');
+                const setupBtn = document.querySelector('#screen-setup .btn-primary');
+                setupBtn.innerText = "Update Shuttle Details";
+                setupBtn.onclick = saveShuttleEdit;
+                return;
+            }
+        }
+    }
+
     navigateTo('screen-home');
 });

@@ -21,11 +21,13 @@
                 <span>Matchy</span>
             </div>
             <div class="nav-links">
-                <a href="#" class="nav-item active" onclick="navigateTo('screen-home')">Home</a>
-                <a href="#" class="nav-item" onclick="navigateTo('screen-shuttles')">Shuttles</a>
-                <a href="#" class="nav-item" onclick="navigateTo('screen-messages')">Messages <span
-                        class="badge">2</span></a>
-                <a href="#" class="nav-item" onclick="navigateTo('screen-profile')">Profile</a>
+                <a href="index.html" class="nav-item active" id="nav-home">Home</a>
+                <a href="#shuttles" class="nav-item" id="nav-shuttles"
+                    onclick="navigateTo('screen-shuttles')">Shuttles</a>
+                <a href="manage.html" class="nav-item" id="nav-manage">My Ride</a>
+                <a href="#messages" class="nav-item" id="nav-messages" onclick="navigateTo('screen-messages')">Messages
+                    <span class="badge">2</span></a>
+                <a href="#profile" class="nav-item" id="nav-profile" onclick="navigateTo('screen-profile')">Profile</a>
             </div>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <div class="points-display" id="user-points">
@@ -41,27 +43,8 @@
             <div class="hero-section">
                 <h1 class="hero-title">Hop on.<br>Roll together.</h1>
                 <div class="hero-image-container" style="background: none; padding: 0;">
-                    <svg viewBox="0 0 400 250" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="400" height="250" rx="20" fill="#f0f4f8" />
-                        <g transform="translate(200, 110)">
-                            <circle cx="0" cy="0" r="70" fill="#3b82f6" opacity="0.1" />
-                            <circle cx="0" cy="0" r="55" fill="#3b82f6" />
-                            <ellipse cx="0" cy="0" rx="55" ry="25" fill="none" stroke="#fff" stroke-width="1.5"
-                                opacity="0.5" />
-                            <ellipse cx="0" cy="0" rx="25" ry="55" fill="none" stroke="#fff" stroke-width="1.5"
-                                opacity="0.5" />
-                        </g>
-                        <g transform="translate(130, 110)">
-                            <path d="M -12 25 Q 0 10, 12 25 L 15 70 L -15 70 Z" fill="#f4b400" />
-                            <circle cx="0" cy="5" r="14" fill="#001233" />
-                        </g>
-                        <g transform="translate(270, 105)">
-                            <path d="M -10 30 Q 0 15, 10 30 L 12 75 L -12 75 Z" fill="#10b981" />
-                            <circle cx="0" cy="10" r="12" fill="#001233" />
-                        </g>
-                        <path d="M 130 90 Q 200 10, 270 90" fill="none" stroke="#f4b400" stroke-width="3"
-                            stroke-dasharray="6,4" />
-                    </svg>
+                    <img src="logo.svg" alt="Matchy Logo"
+                        style="width: 100%; max-width: 160px; height: auto; display: block; margin: 0 auto;">
                 </div>
             </div>
 
@@ -176,10 +159,15 @@
                 </div>
 
                 <div class="action-footer" style="padding: 10px;">
-                    <button class="btn btn-primary btn-large" onclick="handleFindShuttles()">Match Shuttles</button>
+                    <button class="btn btn-primary btn-large" onclick="handleCreateShuttle()">Create Shuttle
+                        Request</button>
+                    <p style="text-align: center; font-size: 10px; color: var(--text-muted); margin-top: 5px;">No
+                        matching shuttles? Start your own.</p>
                 </div>
             </div>
         </div>
+
+        <!-- SCREEN: Manage Shuttle (Moved to manage.html) -->
 
         <!-- SCREEN 3: Shuttles -->
         <div id="screen-shuttles" class="screen shuttles-screen">

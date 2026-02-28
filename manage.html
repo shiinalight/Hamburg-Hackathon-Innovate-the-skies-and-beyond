@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage My Ride - Matchy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: var(--bg-alt);
+        }
+
+        .app-container {
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #screen-manage-shuttle {
+            display: flex !important;
+            height: calc(100vh - 73px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Global Top Navigation -->
+        <nav class="top-nav" id="main-nav">
+            <div class="logo" style="visibility: hidden;">
+                <i class="fa-solid fa-shuttle-van"></i>
+                <span>Matchy</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="shuttles.html" class="nav-item">Shuttles</a>
+                <a href="manage.html" class="nav-item active">My Ride</a>
+                <a href="messages.html" class="nav-item">Messages <span class="badge">2</span></a>
+                <a href="profile.html" class="nav-item">Profile</a>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="points-display" id="user-points">
+                    <i class="fa-solid fa-star"></i>
+                    <span>150 pts</span>
+                </div>
+                <button class="icon-btn"><i class="fa-regular fa-bell"></i></button>
+            </div>
+        </nav>
+
+        <div id="screen-manage-shuttle" class="screen">
+            <header class="app-header">
+                <button class="icon-btn" onclick="window.location.href='index.html'"><i
+                        class="fa-solid fa-arrow-left"></i></button>
+                <h2>Manage Your Shuttle</h2>
+                <button class="icon-btn" id="edit-btn"><i class="fa-solid fa-pen-to-square"></i></button>
+            </header>
+
+            <div class="scroll-content" style="padding: 15px; flex-grow: 1; overflow-y: auto;">
+                <div class="shuttle-info-card"
+                    style="background: white; padding: 15px; border-radius: var(--border-radius-sm); box-shadow: var(--shadow-sm); margin-bottom: 15px; border: 1px solid var(--border-color);">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                        <div>
+                            <h3 id="manage-title" style="font-size: 18px; color: var(--primary-color);">My Shuttle</h3>
+                            <p id="manage-dest" style="color: var(--text-muted); font-size: 14px;"><i
+                                    class="fa-solid fa-location-dot"></i> Loading...</p>
+                        </div>
+                        <div class="badge-item active"
+                            style="padding: 5px 10px; font-size: 10px; background: var(--accent-color); color: var(--primary-color); font-weight: 800; border-radius: 10px;">
+                            HOST</div>
+                    </div>
+                    <div id="manage-details"
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px; color: var(--text-main);">
+                        <span><i class="fa-solid fa-plane"></i> Flight: <b id="manage-flight-val">-</b></span>
+                        <span><i class="fa-solid fa-car"></i> <b id="manage-transport-val">Taxi</b></span>
+                        <span><i class="fa-solid fa-globe"></i> <b id="manage-lang-val">English</b></span>
+                        <span><i class="fa-solid fa-user-group"></i> <b id="manage-pref-val">25-35</b></span>
+                    </div>
+                </div>
+
+                <div class="members-section">
+                    <h3 style="font-size: 16px; margin-bottom: 12px;">Shuttle Members (<span
+                            id="manage-count">1</span>/<span id="manage-cap">4</span>)</h3>
+                    <div class="members-list" id="manage-members-list">
+                        <!-- Members injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-footer" style="padding: 12px 20px; background: var(--bg-alt); flex-shrink: 0;">
+                <button class="btn btn-secondary btn-large" onclick="window.location.href='index.html'">Go Back
+                    Home</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            const all = JSON.parse(localStorage.getItem('matchy_shuttles_v1') || '[]');
+
+            let mine = id ? all.find(s => s.id == id) : all.find(s => s.host === 'You');
+            if (mine) {
+                renderManageShuttle(mine.id);
+            } else {
+                document.getElementById('manage-members-list').innerHTML = '<p style="padding: 20px; text-align: center; color: var(--text-muted);">You have no active rides. Create one on the Home page!</p>';
+            }
+
+            document.getElementById('edit-btn').onclick = () => {
+                if (mine) {
+                    localStorage.setItem('matchy_edit_id', mine.id);
+                    window.location.href = 'index.html?edit=true';
+                }
+            };
+
+            const logo = document.querySelector('.top-nav .logo');
+            if (logo) logo.style.visibility = 'hidden';
+        });
+    </script>
+</body>
+
+</html>
