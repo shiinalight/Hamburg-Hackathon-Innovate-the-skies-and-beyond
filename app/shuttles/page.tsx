@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowLeft, Users, LocationDot, Star, CheckCircle, Info, Sparkles } from "lucide-react";
+import { ArrowLeft, Users, MapPin, Star, CheckCircle, Info, Sparkles, BusFront } from "lucide-react";
 
 export default function ShuttlesPage() {
     const [matches, setMatches] = useState<any[]>([]);
@@ -127,10 +127,10 @@ export default function ShuttlesPage() {
                                     <Users size={16} className="text-gray-400 group-hover:text-blue-500 transition-colors" /> {shuttle.occupied}/{shuttle.capacity} Seats Occupied
                                 </div>
                                 <div className="flex items-center gap-4 text-sm font-semibold text-gray-700">
-                                    <LocationDot size={16} className="text-gray-400 group-hover:text-blue-500 transition-colors" /> {shuttle.dest} ({shuttle.time})
+                                    <MapPin size={16} className="text-gray-400 group-hover:text-blue-500 transition-colors" /> {shuttle.dest} ({shuttle.time})
                                 </div>
                                 <div className="flex items-center gap-4 text-sm font-black text-[#001233]">
-                                    <Users size={16} className="text-gray-400" /> {shuttle.similarity || 'High Match'}
+                                    <BusFront size={16} className="text-gray-400" /> {shuttle.similarity || 'High Match'}
                                 </div>
                                 <div className="bg-blue-50/50 p-4 rounded-2xl mt-4 border border-blue-100 italic text-[11px] text-blue-700 leading-relaxed flex gap-3 shadow-inner">
                                     <Info size={14} className="flex-shrink-0" />
@@ -152,9 +152,20 @@ export default function ShuttlesPage() {
                         </motion.div>
                     ))
                 ) : (
-                    <div className="text-center py-20">
-                        <h3 className="text-xl font-bold mb-2">No matches found.</h3>
-                        <p className="text-gray-500">Try adjusting your preferences or starting your own shuttle.</p>
+                    <div className="flex flex-col items-center justify-center py-20 px-8 text-center bg-white rounded-[32px] shadow-sm border border-dashed border-blue-200">
+                        <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-6">
+                            <BusFront size={40} className="text-blue-300" />
+                        </div>
+                        <h3 className="text-2xl font-black text-[#001233] mb-3">No matches found</h3>
+                        <p className="text-gray-500 max-w-[280px] mb-8 leading-relaxed">
+                            We couldn't find any shuttles matching your criteria yet. Be the first to start this ride!
+                        </p>
+                        <button
+                            onClick={handCreateYourOwn}
+                            className="btn-primary px-10 py-4 shadow-xl flex items-center gap-3 active:scale-95 transition-all"
+                        >
+                            <Sparkles size={18} /> Start Your Own
+                        </button>
                     </div>
                 )}
 

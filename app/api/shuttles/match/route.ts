@@ -11,7 +11,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Gemini API key not configured" }, { status: 500 });
         }
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
         const prompt = `
     You are the matching engine for "Matchy", a shuttle-sharing app.
