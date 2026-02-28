@@ -11,8 +11,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Gemini API key not configured" }, { status: 500 });
         }
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
-
         const prompt = `
     You are the matching engine for "Matchy", a shuttle-sharing app.
     Return ALL relevant shuttles (ranked by compatibility) as a JSON array of objects with {id, similarity, reason}.
@@ -35,7 +33,25 @@ export async function POST(req: Request) {
     Return ONLY the JSON array.
     `;
 
-        const result = await model.generateContent(prompt);
+        const modelsToTry = ["gemini-1.5-flash", "gemini-pro"];
+        let result;
+        let lastError;
+
+        for (const modelName of modelsToTry) {
+            try {
+                const model = genAI.getGenerativeModel({ model: modelName });
+                result = await model.generateContent(prompt);
+                if (result) break;
+            } catch (err) {
+                console.warn(`Model ${modelName} failed, trying next...`, err);
+                lastError = err;
+            }
+        }
+
+        if (!result) {
+            throw lastError || new Error("All models failed");
+        }
+
         const response = await result.response;
         let text = response.text();
 
