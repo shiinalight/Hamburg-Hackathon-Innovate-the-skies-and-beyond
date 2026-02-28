@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Shuttles - Matchy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Global Top Navigation -->
+        <nav class="top-nav" id="main-nav">
+            <div class="logo" style="visibility: hidden;">
+                <i class="fa-solid fa-shuttle-van"></i>
+                <span>Matchy</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item">Home</a>
+                <a href="shuttles.html" class="nav-item active">Shuttles</a>
+                <a href="manage.html" class="nav-item">My Ride</a>
+                <a href="index.html?screen=messages" class="nav-item">Messages <span class="badge">2</span></a>
+                <a href="index.html?screen=profile" class="nav-item">Profile</a>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="points-display" id="user-points">
+                    <i class="fa-solid fa-star"></i>
+                    <span>150 pts</span>
+                </div>
+                <button class="icon-btn"><i class="fa-regular fa-bell"></i></button>
+            </div>
+        </nav>
+
+        <div id="screen-shuttles" class="screen shuttles-screen active">
+            <header class="shuttles-header">
+                <div class="header-top">
+                    <button class="icon-btn dark" onclick="window.location.href='index.html'"><i
+                            class="fa-solid fa-arrow-left"></i></button>
+                </div>
+                <h2>Similar Shuttles <span class="found-text">(Top 3)</span></h2>
+            </header>
+
+            <div class="shuttles-list" id="llm-shuttle-list" style="flex-grow: 1; overflow-y: auto;">
+                <div style="padding: 40px; text-align: center;">
+                    <i class="fa-solid fa-circle-notch fa-spin"
+                        style="font-size: 32px; color: var(--primary-color);"></i>
+                    <p style="margin-top: 15px;">AI is matching you with the best shuttles...</p>
+                </div>
+            </div>
+
+            <div class="action-footer" style="padding: 20px; background: var(--bg-alt);">
+                <p style="text-align: center; margin-bottom: 10px; color: var(--text-muted); font-size: 13px;">Don't see
+                    a perfect fit?</p>
+                <button class="btn btn-primary btn-large" onclick="handleCreateShuttle()">Create My Own Shuttle
+                    Request</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const prefs = JSON.parse(localStorage.getItem('matchy_search_prefs') || 'null');
+            const allShuttles = JSON.parse(localStorage.getItem('matchy_shuttles_v1') || '[]');
+
+            if (prefs) {
+                try {
+                    const matches = await callGeminiMatching(prefs, allShuttles);
+                    renderShuttles(matches);
+                } catch (e) {
+                    console.error("Match error", e);
+                    renderShuttles(allShuttles.slice(0, 3));
+                }
+            } else {
+                renderShuttles(allShuttles.slice(0, 5));
+            }
+
+            // nav logo hide
+            const logo = document.querySelector('.top-nav .logo');
+            if (logo) logo.style.visibility = 'hidden';
+        });
+    </script>
+</body>
+
+</html>

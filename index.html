@@ -22,12 +22,11 @@
             </div>
             <div class="nav-links">
                 <a href="index.html" class="nav-item active" id="nav-home">Home</a>
-                <a href="#shuttles" class="nav-item" id="nav-shuttles"
-                    onclick="navigateTo('screen-shuttles')">Shuttles</a>
+                <a href="shuttles.html" class="nav-item" id="nav-shuttles">Shuttles</a>
                 <a href="manage.html" class="nav-item" id="nav-manage">My Ride</a>
-                <a href="#messages" class="nav-item" id="nav-messages" onclick="navigateTo('screen-messages')">Messages
-                    <span class="badge">2</span></a>
-                <a href="#profile" class="nav-item" id="nav-profile" onclick="navigateTo('screen-profile')">Profile</a>
+                <a href="#" class="nav-item" id="nav-messages" onclick="navigateTo('screen-messages')">Messages <span
+                        class="badge">2</span></a>
+                <a href="#" class="nav-item" id="nav-profile" onclick="navigateTo('screen-profile')">Profile</a>
             </div>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <div class="points-display" id="user-points">
@@ -159,39 +158,17 @@
                 </div>
 
                 <div class="action-footer" style="padding: 10px;">
-                    <button class="btn btn-primary btn-large" onclick="handleCreateShuttle()">Create Shuttle
-                        Request</button>
-                    <p style="text-align: center; font-size: 10px; color: var(--text-muted); margin-top: 5px;">No
-                        matching shuttles? Start your own.</p>
+                    <button class="btn btn-primary btn-large" onclick="handleFindShuttles()">Find Matching
+                        Shuttles</button>
+                    <p style="text-align: center; font-size: 10px; color: var(--text-muted); margin-top: 5px;">We'll
+                        match you with the best travel companions.</p>
                 </div>
             </div>
         </div>
 
         <!-- SCREEN: Manage Shuttle (Moved to manage.html) -->
 
-        <!-- SCREEN 3: Shuttles -->
-        <div id="screen-shuttles" class="screen shuttles-screen">
-            <header class="shuttles-header">
-                <div class="header-top">
-                    <button class="icon-btn dark" onclick="navigateTo('screen-home')"><i
-                            class="fa-solid fa-arrow-left"></i></button>
-                </div>
-                <h2>Similar Shuttles <span class="found-text">(Top 3)</span></h2>
-            </header>
-
-            <div class="shuttles-list" id="llm-shuttle-list">
-                <!-- LLM will inject matches here -->
-                <div style="padding: 20px; text-align: center; color: var(--text-muted);">
-                    Waiting for your request...
-                </div>
-            </div>
-
-            <div class="action-footer" style="position: static; padding: 20px;">
-                <p style="text-align: center; margin-bottom: 10px; color: var(--text-muted);">Don't see a fit?</p>
-                <button class="btn btn-primary btn-large" onclick="handleCreateShuttle()">Create New Shuttle
-                    Request</button>
-            </div>
-        </div>
+        <!-- SCREEN: Shuttles (Moved to shuttles.html) -->
 
         <!-- SCREEN 4: Messages -->
         <div id="screen-messages" class="screen">

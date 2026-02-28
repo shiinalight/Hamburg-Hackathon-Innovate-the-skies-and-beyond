@@ -118,19 +118,14 @@ function navigateTo(screenId, params = null) {
         }
     }
 
-    // Special handling for management screen (Redirecting)
+    // Special handling for screens moved to separate pages
     if (screenId === 'screen-manage-shuttle') {
         window.location.href = 'manage.html' + (params && params.id ? '?id=' + params.id : '');
         return;
     }
-
-    // If entering Shuttles and it's empty, show all available
     if (screenId === 'screen-shuttles') {
-        const list = document.getElementById('llm-shuttle-list');
-        if (list && (list.innerHTML.includes('Waiting') || list.innerHTML.trim() === '')) {
-            const all = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
-            renderShuttles(all.slice(0, 5));
-        }
+        window.location.href = 'shuttles.html';
+        return;
     }
 
     window.scrollTo(0, 0);
@@ -222,41 +217,29 @@ function saveShuttleEdit() {
     localStorage.setItem(DB_KEY, JSON.stringify(allShuttles));
     alert("Shuttle updated successfully! ✅");
 
-    // Restore original setup button
+    // Restore original setup button flow
     const setupBtn = document.querySelector('#screen-setup .btn-primary');
-    setupBtn.innerText = "Create Shuttle Request";
-    setupBtn.onclick = handleCreateShuttle;
+    setupBtn.innerText = "Find Matching Shuttles";
+    setupBtn.onclick = handleFindShuttles;
 
     navigateTo('screen-manage-shuttle', { id: currentShuttleId });
 }
 
 // Handle "Find Similar Shuttles"
 async function handleFindShuttles() {
-    const listContainer = document.getElementById('llm-shuttle-list');
-    listContainer.innerHTML = `<div style="padding: 40px; text-align: center;"><i class="fa-solid fa-circle-notch fa-spin" style="font-size: 32px; color: var(--primary-color);"></i><p style="margin-top: 15px;">AI is matching you with the best shuttles...</p></div>`;
-
-    navigateTo('screen-shuttles');
-
     const prefs = {
-        dest: document.getElementById('input-destination').value,
-        flight: document.getElementById('input-flight').value,
-        lang: document.getElementById('select-language').value,
-        transport: document.getElementById('select-transport').value,
-        age: document.getElementById('select-age').value,
-        capacity: document.getElementById('select-capacity').value
+        dest: document.getElementById('input-destination')?.value || 'Alexanderplatz',
+        flight: document.getElementById('input-flight')?.value || '',
+        lang: document.getElementById('select-language')?.value || 'English',
+        transport: document.getElementById('select-transport')?.value || 'Taxi',
+        age: document.getElementById('select-age')?.value || '25-35',
+        capacity: document.getElementById('select-capacity')?.value || '4'
     };
 
-    const allShuttles = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+    localStorage.setItem('matchy_search_prefs', JSON.stringify(prefs));
 
-    try {
-        const matches = await callGeminiMatching(prefs, allShuttles);
-        renderShuttles(matches);
-        if (prefs.flight) earnPoints(5, 'sky');
-    } catch (error) {
-        console.error("Matching Error:", error);
-        listContainer.innerHTML = `<div style="padding: 20px; text-align: center; color: var(--text-danger);"><i class="fa-solid fa-triangle-exclamation"></i><p>Oops! LLM matching failed. Using fallback.</p></div>`;
-        renderShuttles(allShuttles.slice(0, 3).map(s => ({ ...s, similarity: "N/A" })));
-    }
+    // Redirect to separate Shuttles page
+    window.location.href = 'shuttles.html';
 }
 
 // Call Gemini API
@@ -346,9 +329,11 @@ function handleJoinShuttle(id) {
 
 // Handle "Create New Shuttle"
 function handleCreateShuttle() {
-    const dest = document.getElementById('input-destination').value;
-    const flight = document.getElementById('input-flight').value;
-    const capacity = parseInt(document.getElementById('select-capacity').value);
+    const searchPrefs = JSON.parse(localStorage.getItem('matchy_search_prefs') || 'null');
+
+    const dest = document.getElementById('input-destination')?.value || searchPrefs?.dest || "Alexanderplatz";
+    const flight = document.getElementById('input-flight')?.value || searchPrefs?.flight || "";
+    const capacity = parseInt(document.getElementById('select-capacity')?.value || searchPrefs?.capacity || 4);
 
     const allShuttles = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
     const newId = allShuttles.length + 1;
@@ -358,12 +343,12 @@ function handleCreateShuttle() {
         title: flight ? `Flight ${flight} Shuttle` : "Your New Shuttle",
         capacity: capacity || 4,
         occupied: 1,
-        dest: dest || "Alexanderplatz",
+        dest: dest,
         flight: flight,
         time: "Now",
-        lang: document.getElementById('select-language').value,
-        transport: document.getElementById('select-transport').value,
-        agePref: document.getElementById('select-age').value,
+        lang: document.getElementById('select-language')?.value || searchPrefs?.lang || "English",
+        transport: document.getElementById('select-transport')?.value || searchPrefs?.transport || "Taxi",
+        agePref: document.getElementById('select-age')?.value || searchPrefs?.age || "25-35",
         badge: "New Request",
         avatar: "https://randomuser.me/api/portraits/lego/1.jpg"
     };
@@ -373,7 +358,7 @@ function handleCreateShuttle() {
 
     earnPoints(20, 'driver');
     alert(`Shuttle created for ${dest}! +20 Points Earned 🚀`);
-    navigateTo('screen-manage-shuttle', { id: newId });
+    window.location.href = 'manage.html?id=' + newId;
 }
 
 // Initialization on Load
@@ -402,6 +387,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
         }
+    }
+
+    // Check for explicit screen navigation
+    const screenParam = urlParams.get('screen');
+    if (screenParam) {
+        navigateTo('screen-' + screenParam);
+        return;
     }
 
     navigateTo('screen-home');
