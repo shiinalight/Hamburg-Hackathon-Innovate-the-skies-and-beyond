@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matchy - Share a shuttle. Save the planet.</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Global Top Navigation -->
+        <nav class="top-nav">
+            <div class="logo">
+                <i class="fa-solid fa-shuttle-van"></i>
+                <span>Matchy</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-item active" onclick="navigateTo('screen-home')">Home</a>
+                <a href="#" class="nav-item" onclick="navigateTo('screen-shuttles')">Shuttles</a>
+                <a href="#" class="nav-item" onclick="navigateTo('screen-messages')">Messages <span
+                        class="badge">2</span></a>
+                <a href="#" class="nav-item" onclick="navigateTo('screen-profile')">Profile</a>
+            </div>
+            <button class="icon-btn"><i class="fa-regular fa-bell"></i></button>
+        </nav>
+
+        <!-- SCREEN 1: Home -->
+        <div id="screen-home" class="screen active">
+            <div class="hero-section">
+                <h1 class="hero-title">Hop on.<br>Roll together.</h1>
+                <div class="hero-image-container" style="background: none; padding: 0;">
+                    <svg viewBox="0 0 400 250" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Background -->
+                        <rect width="400" height="250" rx="20" fill="#f0f4f8" />
+
+                        <!-- Globe -->
+                        <g transform="translate(200, 110)">
+                            <circle cx="0" cy="0" r="70" fill="#3b82f6" opacity="0.1" />
+                            <circle cx="0" cy="0" r="55" fill="#3b82f6" />
+                            <!-- Continents approx -->
+                            <path
+                                d="M -30 -20 Q -10 -40, 10 -20 T 40 0 C 45 20, 20 40, -10 30 C -30 20, -50 0, -30 -20 Z"
+                                fill="#86efac" opacity="0.8" />
+                            <path d="M 20 -40 Q 30 -50, 45 -35 T 30 -15 Z" fill="#86efac" opacity="0.8" />
+                            <!-- Latitude/Longitude Lines -->
+                            <ellipse cx="0" cy="0" rx="55" ry="25" fill="none" stroke="#fff" stroke-width="1.5"
+                                opacity="0.5" />
+                            <ellipse cx="0" cy="0" rx="25" ry="55" fill="none" stroke="#fff" stroke-width="1.5"
+                                opacity="0.5" />
+                            <line x1="-55" y1="0" x2="55" y2="0" stroke="#fff" stroke-width="1.5" opacity="0.5" />
+                            <line x1="0" y1="-55" x2="0" y2="55" stroke="#fff" stroke-width="1.5" opacity="0.5" />
+                        </g>
+
+                        <!-- Traveler 1 (Left) -->
+                        <g transform="translate(130, 110)">
+                            <!-- Shadow -->
+                            <ellipse cx="0" cy="75" rx="15" ry="3" fill="#001233" opacity="0.1" />
+                            <!-- Body -->
+                            <path d="M -12 25 Q 0 10, 12 25 L 15 70 L -15 70 Z" fill="#f4b400" />
+                            <!-- Head -->
+                            <circle cx="0" cy="5" r="14" fill="#001233" />
+                            <!-- Luggage -->
+                            <rect x="-25" y="45" width="14" height="25" rx="2" fill="#333" />
+                            <path d="M -22 45 L -22 35 L -16 35 L -16 45" fill="none" stroke="#333" stroke-width="2" />
+                        </g>
+
+                        <!-- Traveler 2 (Right) -->
+                        <g transform="translate(270, 105)">
+                            <!-- Shadow -->
+                            <ellipse cx="0" cy="80" rx="15" ry="3" fill="#001233" opacity="0.1" />
+                            <!-- Body -->
+                            <path d="M -10 30 Q 0 15, 10 30 L 12 75 L -12 75 Z" fill="#10b981" />
+                            <!-- Head -->
+                            <circle cx="0" cy="10" r="12" fill="#001233" />
+                            <!-- Backpack -->
+                            <path d="M 10 35 Q 20 45, 12 60 L 8 60 Z" fill="#333" />
+                        </g>
+
+                        <!-- Connecting Flight Path -->
+                        <path d="M 130 90 Q 200 10, 270 90" fill="none" stroke="#f4b400" stroke-width="3"
+                            stroke-dasharray="6,4" />
+                        <!-- Small Plane -->
+                        <path
+                            d="M195 45 L205 45 L220 60 L225 60 C228 60, 230 58, 225 55 L210 40 L210 30 L205 30 L200 40 L190 40 Z"
+                            fill="#f4b400" transform="translate(5, -15) rotate(15 200 45)" />
+
+                        <!-- Decorative Elements / Floating Icons -->
+                        <circle cx="80" cy="60" r="4" fill="#f4b400" opacity="0.6" />
+                        <circle cx="320" cy="50" r="6" fill="#3b82f6" opacity="0.5" />
+                        <circle cx="340" cy="160" r="3" fill="#10b981" opacity="0.6" />
+                        <circle cx="60" cy="150" r="5" fill="#3b82f6" opacity="0.5" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="features-section">
+                <h2>Why Shuttle?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                        <h3>Save Money</h3>
+                        <p>Split fares up to 50%</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-leaf"></i></div>
+                        <h3>Reduce Footprint</h3>
+                        <p>Fewer cars, cleaner air</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
+                        <h3>Meet People</h3>
+                        <p>Make new connections</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-footer">
+                <button class="btn btn-primary btn-large" onclick="navigateTo('screen-setup')">Create Shuttle Request <i
+                        class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: Setup Trip -->
+        <div id="screen-setup" class="screen">
+            <header class="app-header">
+                <button class="icon-btn" onclick="navigateTo('screen-home')"><i
+                        class="fa-solid fa-arrow-left"></i></button>
+                <div class="progress-container">
+                    <div class="progress-text">New Trip Setup <span class="progress-percent">50%</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 50%;"></div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="scroll-content">
+                <div class="form-section">
+                    <p class="section-label">The Destination</p>
+                    <h2 class="section-title">Where are you heading?</h2>
+                    <p class="section-subtitle">(e.g., Berlin Brandenburg (BER))</p>
+                    <div class="input-group">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" placeholder="Search Airport or Destination" value="Alexanderplatz">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <p class="section-label">Timing</p>
+                    <h2 class="section-title">Arrival Window</h2>
+                    <div class="pill-group">
+                        <button class="pill active">Now (00m)</button>
+                        <button class="pill">Today</button>
+                        <button class="pill">Tomorrow</button>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <p class="section-label">Preferences</p>
+                    <h2 class="section-title">Match Me With...</h2>
+
+                    <div class="select-group">
+                        <select>
+                            <option>Language: English</option>
+                            <option>Language: German</option>
+                            <option>Language: Spanish</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down select-icon"></i>
+                    </div>
+
+                    <div class="select-group">
+                        <select>
+                            <option>Preferred Transport: Taxi, Public Transit</option>
+                            <option>Preferred Transport: Ride-share</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down select-icon"></i>
+                    </div>
+
+                    <div class="select-group">
+                        <select>
+                            <option>Age: No Preference</option>
+                            <option selected>Age: 18-24</option>
+                            <option selected>Age: 25-35</option>
+                            <option>Age: 36-50</option>
+                            <option>Age: 51+</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down select-icon"></i>
+                    </div>
+
+                    <div class="select-group">
+                        <select>
+                            <option selected>Gender: No Pref</option>
+                            <option>Gender: Same as me</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down select-icon"></i>
+                    </div>
+
+                    <div class="select-group">
+                        <select>
+                            <option>Student Status: Any</option>
+                            <option selected>Student Status: Yes</option>
+                            <option>Student Status: No</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down select-icon"></i>
+                    </div>
+
+                    <div class="select-group">
+                        <select>
+                            <option value="1">Shuttle Capacity: 1 Person</option>
+                            <option value="2">Shuttle Capacity: 2 People</option>
+                            <option value="3">Shuttle Capacity: 3 People</option>
+                            <option selected value="4">Shuttle Capacity: 4 People (Standard)</option>
+                            <option value="6">Shuttle Capacity: 6 People (XL)</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down select-icon"></i>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <p class="section-label">The Profile</p>
+                    <h2 class="section-title">Your Role</h2>
+                    <div class="role-grid">
+                        <div class="role-card active">
+                            <i class="fa-solid fa-shuttle-van"></i>
+                            <h3>Join a Shuttle</h3>
+                            <p>I want to join a ride.</p>
+                        </div>
+                        <div class="role-card">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                            <h3>City Host</h3>
+                            <p>I know Berlin well.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-footer">
+                <button class="btn btn-primary btn-large" onclick="navigateTo('screen-shuttles')">Find Similar
+                    Shuttles</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: Shuttles -->
+        <div id="screen-shuttles" class="screen shuttles-screen">
+            <header class="shuttles-header">
+                <div class="header-top">
+                    <button class="icon-btn dark" onclick="navigateTo('screen-setup')"><i
+                            class="fa-solid fa-arrow-left"></i></button>
+                </div>
+                <h2>Similar Shuttles <span class="found-text">(Top 3)</span></h2>
+            </header>
+
+            <div class="shuttles-list">
+                <!-- Shuttle Card 1 -->
+                <div class="shuttle-card">
+                    <div class="shuttle-header">
+                        <img src="avatar1.png" alt="Sophie R." class="avatar"
+                            onerror="this.src='https://randomuser.me/api/portraits/women/44.jpg'">
+                        <div class="shuttle-info">
+                            <h3>Sophie's Shuttle</h3>
+                            <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> Standard Host</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fa-solid fa-star text-gold"></i> 4.9
+                        </div>
+                    </div>
+                    <div class="shuttle-details">
+                        <div class="detail-row"><i class="fa-solid fa-users"></i> 3/4 Seats Occupied</div>
+                        <div class="detail-row"><i class="fa-solid fa-location-dot"></i> Alexanderplatz (15:45)</div>
+                        <div class="shuttle-score"><i class="fa-solid fa-shuttle-van"></i> 95% Similarity</div>
+                    </div>
+                    <div class="shuttle-actions">
+                        <button class="btn btn-secondary">Request Join</button>
+                    </div>
+                </div>
+
+                <!-- Shuttle Card 2 -->
+                <div class="shuttle-card">
+                    <div class="shuttle-header">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Liam K." class="avatar">
+                        <div class="shuttle-info">
+                            <h3>Liam's XL Shuttle</h3>
+                            <span class="host-badge"><i class="fa-solid fa-star"></i> Pro Host</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fa-solid fa-star text-gold"></i> 5.0
+                        </div>
+                    </div>
+                    <div class="shuttle-details">
+                        <div class="detail-row"><i class="fa-solid fa-users"></i> 2/6 Seats Occupied</div>
+                        <div class="detail-row"><i class="fa-solid fa-location-dot"></i> Potsdamer Platz (16:00)</div>
+                        <div class="shuttle-score"><i class="fa-solid fa-shuttle-van"></i> 88% Similarity</div>
+                    </div>
+                    <div class="shuttle-actions">
+                        <button class="btn btn-secondary">Request Join</button>
+                    </div>
+                </div>
+
+                <!-- Shuttle Card 3 -->
+                <div class="shuttle-card">
+                    <div class="shuttle-header">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Aisha B." class="avatar">
+                        <div class="shuttle-info">
+                            <h3>Aisha's Green Shuttle</h3>
+                            <span class="verified-badge"><i class="fa-solid fa-leaf"></i> Eco-Friendly</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fa-solid fa-star text-gold"></i> 4.5
+                        </div>
+                    </div>
+                    <div class="shuttle-details">
+                        <div class="detail-row"><i class="fa-solid fa-users"></i> 1/4 Seats Occupied</div>
+                        <div class="detail-row"><i class="fa-solid fa-location-dot"></i> Alexanderplatz (15:30)</div>
+                        <div class="shuttle-score"><i class="fa-solid fa-shuttle-van"></i> 82% Similarity</div>
+                    </div>
+                    <div class="shuttle-actions">
+                        <button class="btn btn-secondary">Request Join</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-footer" style="position: static; padding: 20px;">
+                <p style="text-align: center; margin-bottom: 10px; color: var(--text-muted);">Don't see a fit?</p>
+                <button class="btn btn-primary btn-large" onclick="alert('Shuttle Created!')">Create New Shuttle
+                    Request</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: Messages -->
+        <div id="screen-messages" class="screen">
+            <header class="app-header">
+                <h2>Messages</h2>
+            </header>
+            <div class="scroll-content">
+                <div class="message-list">
+                    <div class="message-item unread">
+                        <img src="avatar1.png" alt="Sophie R." class="avatar">
+                        <div class="message-info">
+                            <h4>Sophie R. <span class="time">10:42 AM</span></h4>
+                            <p>Hi! Are you still looking for someone to split a ride to Alexanderplatz?</p>
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Liam K." class="avatar">
+                        <div class="message-info">
+                            <h4>Liam K. <span class="time">Yesterday</span></h4>
+                            <p>Great meeting you! Safe travels.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 5: Profile -->
+        <div id="screen-profile" class="screen">
+            <header class="app-header">
+                <h2>Profile</h2>
+            </header>
+            <div class="scroll-content">
+                <div class="profile-header text-center">
+                    <img src="https://randomuser.me/api/portraits/women/40.jpg" alt="My Profile" class="avatar-large">
+                    <h2>Sarah M.</h2>
+                    <p class="text-muted">Explorer 🌍 | Member since 2024</p>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <h3>14</h3>
+                        <p>Rides Shared</p>
+                    </div>
+                    <div class="stat">
+                        <h3>120kg</h3>
+                        <p>CO2 Saved</p>
+                    </div>
+                    <div class="stat">
+                        <h3>4.9</h3>
+                        <p>Rating</p>
+                    </div>
+                </div>
+                <div class="profile-menu">
+                    <button class="menu-item"><i class="fa-solid fa-user-pen"></i> Edit Profile</button>
+                    <button class="menu-item"><i class="fa-solid fa-gear"></i> Settings</button>
+                    <button class="menu-item"><i class="fa-solid fa-circle-question"></i> Help & Support</button>
+                    <button class="menu-item text-danger"><i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
