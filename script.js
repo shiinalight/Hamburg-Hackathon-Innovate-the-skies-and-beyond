@@ -246,7 +246,7 @@ async function handleFindShuttles() {
 async function callGeminiMatching(prefs, shuttles) {
     const prompt = `
     You are the matching engine for "Matchy", a shuttle-sharing app.
-    Return TOP 3 most relevant shuttles as a JSON array of objects with {id, similarity, reason}.
+    Return ALL relevant shuttles (ranked by compatibility) as a JSON array of objects with {id, similarity, reason}.
     
     User Preferences:
     - Destination: ${prefs.dest}
@@ -291,6 +291,10 @@ function renderShuttles(matches) {
     if (!matches || matches.length === 0) {
         listContainer.innerHTML = '<div style="padding: 20px; text-align: center;">No matches found. Try creating a new shuttle!</div>';
         return;
+    }
+
+    if (document.getElementById('shuttle-found-count')) {
+        document.getElementById('shuttle-found-count').innerText = `(${matches.length} found)`;
     }
 
     matches.forEach(shuttle => {
