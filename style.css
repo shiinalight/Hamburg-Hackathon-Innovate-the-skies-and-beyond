@@ -398,6 +398,17 @@ input[type="text"]:focus {
 }
 
 /* Select */
+.field-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    padding-left: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 .select-group {
     position: relative;
     margin-bottom: 12px;
