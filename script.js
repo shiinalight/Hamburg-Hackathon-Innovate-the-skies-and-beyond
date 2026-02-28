@@ -33,8 +33,9 @@ function initDatabase() {
 
 // Update User Stats & Badges in UI
 function updateUserUI() {
-    const user = JSON.parse(localStorage.getItem(USER_KEY));
-    if (!user) return;
+    const userData = localStorage.getItem(USER_KEY);
+    if (!userData) return;
+    const user = JSON.parse(userData);
 
     // Nav points
     const pointsSpan = document.querySelector('#user-points span');
@@ -71,7 +72,10 @@ function updateUserUI() {
 
 // Earn points function
 function earnPoints(amount, badgeId = null) {
-    const user = JSON.parse(localStorage.getItem(USER_KEY));
+    const userData = localStorage.getItem(USER_KEY);
+    if (!userData) return;
+    const user = JSON.parse(userData);
+
     user.points += amount;
     if (badgeId && !user.badges.includes(badgeId)) {
         user.badges.push(badgeId);
@@ -82,7 +86,6 @@ function earnPoints(amount, badgeId = null) {
 }
 
 function showBadgeUnlock(id) {
-    // Simple alert for now, could be a toast
     alert(`🏆 New Badge Unlocked: ${id.toUpperCase()}!`);
 }
 
@@ -90,8 +93,28 @@ function showBadgeUnlock(id) {
 function navigateTo(screenId) {
     const screens = document.querySelectorAll('.screen');
     screens.forEach(screen => screen.classList.remove('active'));
+
     const targetScreen = document.getElementById(screenId);
     if (targetScreen) targetScreen.classList.add('active');
+
+    // Update nav active state
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('onclick').includes(screenId)) {
+            item.classList.add('active');
+        }
+    });
+
+    // If entering Shuttles and it's empty, show all available
+    if (screenId === 'screen-shuttles') {
+        const list = document.getElementById('llm-shuttle-list');
+        if (list && (list.innerHTML.includes('Waiting') || list.innerHTML.trim() === '')) {
+            const all = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+            renderShuttles(all.slice(0, 5));
+        }
+    }
+
     window.scrollTo(0, 0);
 }
 
@@ -108,8 +131,6 @@ async function handleFindShuttles() {
         lang: document.getElementById('select-language').value,
         transport: document.getElementById('select-transport').value,
         age: document.getElementById('select-age').value,
-        gender: document.getElementById('select-gender').value,
-        student: document.getElementById('select-student').value,
         capacity: document.getElementById('select-capacity').value
     };
 
@@ -118,7 +139,6 @@ async function handleFindShuttles() {
     try {
         const matches = await callGeminiMatching(prefs, allShuttles);
         renderShuttles(matches);
-        // Bonus points for searching with flight number!
         if (prefs.flight) earnPoints(5, 'sky');
     } catch (error) {
         console.error("Matching Error:", error);
@@ -131,30 +151,22 @@ async function handleFindShuttles() {
 async function callGeminiMatching(prefs, shuttles) {
     const prompt = `
     You are the matching engine for "Matchy", a shuttle-sharing app.
-    Given the User's Preferences and a list of Available Shuttles, your task is to return the TOP 3 most relevant shuttles.
+    Return TOP 3 most relevant shuttles as a JSON array of objects with {id, similarity, reason}.
     
     User Preferences:
     - Destination: ${prefs.dest}
     - Flight Number: ${prefs.flight || 'Not specified'}
     - Language: ${prefs.lang}
     - Transport: ${prefs.transport}
-    - Preferred Age Group: ${prefs.age}
-    - Gender Preference: ${prefs.gender}
     - Seat Capacity Needed: ${prefs.capacity}
 
-    Available Shuttles (Database):
+    Available Shuttles:
     ${JSON.stringify(shuttles)}
 
     CRITIERIA:
     1. Flight Number match is absolute highest priority.
     2. Destination match is high priority.
-    3. MUST have at least 1 seat available (occupied < capacity).
-
-    RESPONSE FORMAT: 
-    Return ONLY a JSON array of 3 objects. Each object must contain:
-    - id (original id from the list)
-    - similarity (a percentage string like "95%")
-    - reason (a short 1-sentence explanation of why it's a good match)
+    3. MUST have space.
     `;
 
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
@@ -181,7 +193,7 @@ function renderShuttles(matches) {
     const listContainer = document.getElementById('llm-shuttle-list');
     listContainer.innerHTML = '';
 
-    if (matches.length === 0) {
+    if (!matches || matches.length === 0) {
         listContainer.innerHTML = '<div style="padding: 20px; text-align: center;">No matches found. Try creating a new shuttle!</div>';
         return;
     }
@@ -191,7 +203,7 @@ function renderShuttles(matches) {
         card.className = 'shuttle-card';
         card.innerHTML = `
             <div class="shuttle-header">
-                <img src="${shuttle.avatar}" alt="${shuttle.host}" class="avatar">
+                <img src="${shuttle.avatar || 'https://via.placeholder.com/50'}" alt="${shuttle.host}" class="avatar">
                 <div class="shuttle-info">
                     <h3>${shuttle.title}</h3>
                     <span class="verified-badge"><i class="fa-solid fa-circle-check"></i> ${shuttle.badge}</span>
@@ -203,7 +215,7 @@ function renderShuttles(matches) {
             <div class="shuttle-details">
                 <div class="detail-row"><i class="fa-solid fa-users"></i> ${shuttle.occupied}/${shuttle.capacity} Seats Occupied</div>
                 <div class="detail-row"><i class="fa-solid fa-location-dot"></i> ${shuttle.dest} (${shuttle.time})</div>
-                <div class="shuttle-score"><i class="fa-solid fa-shuttle-van"></i> ${shuttle.similarity} Match</div>
+                <div class="shuttle-score"><i class="fa-solid fa-shuttle-van"></i> ${shuttle.similarity || 'Match'}</div>
                 <p style="font-size: 11px; color: var(--text-muted); margin-top: 8px;">"${shuttle.matchReason || 'Highly compatible ride'}"</p>
             </div>
             <div class="shuttle-actions">
@@ -231,9 +243,9 @@ function handleCreateShuttle() {
         id: allShuttles.length + 1,
         host: "You",
         title: flight ? `Flight ${flight} Shuttle` : "Your New Shuttle",
-        capacity: capacity,
+        capacity: capacity || 4,
         occupied: 1,
-        dest: dest,
+        dest: dest || "Alexanderplatz",
         flight: flight,
         time: "Now",
         lang: document.getElementById('select-language').value,
@@ -253,12 +265,5 @@ function handleCreateShuttle() {
 // Initialization on Load
 document.addEventListener('DOMContentLoaded', () => {
     initDatabase();
-
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
-        item.addEventListener('click', function () {
-            navItems.forEach(nav => nav.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
+    navigateTo('screen-home');
 });

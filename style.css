@@ -59,6 +59,7 @@ body {
 
 .screen.active {
     display: flex;
+    flex-grow: 1;
 }
 
 @keyframes fadeIn {
@@ -319,15 +320,21 @@ h3 {
 }
 
 .section-title {
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 4px;
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 2px;
 }
 
 .section-subtitle {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--text-muted);
-    margin-bottom: 16px;
+    margin-bottom: 8px;
+}
+
+.compact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
 }
 
 /* Inputs & Form Controls */
@@ -400,26 +407,26 @@ input[type="text"]:focus {
 /* Select */
 .field-label {
     display: block;
-    font-size: 13px;
+    font-size: 10px;
     font-weight: 700;
     color: var(--text-muted);
-    margin-bottom: 6px;
-    padding-left: 4px;
+    margin-bottom: 4px;
+    padding-left: 2px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .select-group {
     position: relative;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 select {
     width: 100%;
-    padding: 14px 16px;
+    padding: 10px 12px;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius-sm);
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     appearance: none;
     background: white;
@@ -827,6 +834,7 @@ select {
 .menu-item.text-danger i {
     color: #ef4444;
 }
+
 /* Badges section in profile */
 .badges-section {
     margin-top: 30px;
@@ -886,5 +894,169 @@ select {
 }
 
 .badge-item.active i {
+    color: var(--accent-color);
+}
+
+/* Auth Screens */
+.auth-screen {
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.auth-header h2 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.auth-form {
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-footer {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.auth-link {
+    color: var(--blue-highlight);
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Condensing Setup Screen */
+#screen-setup .scroll-content {
+    padding-bottom: 20px;
+}
+
+#screen-setup .form-section {
+    padding: 12px 20px;
+}
+
+#screen-setup .section-title {
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+#screen-setup .section-subtitle {
+    font-size: 11px;
+    margin-bottom: 8px;
+}
+
+#screen-setup .input-group {
+    margin-bottom: 8px;
+}
+
+#screen-setup .pill {
+    padding: 6px 14px;
+    font-size: 12px;
+}
+
+#screen-setup .select-group {
+    margin-bottom: 8px;
+}
+
+#screen-setup select {
+    padding: 8px 12px;
+    font-size: 13px;
+}
+
+.pref-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+#screen-setup .role-card {
+    padding: 10px;
+}
+
+#screen-setup .role-card i {
+    font-size: 18px;
+}
+
+#screen-setup .role-card h3 {
+    font-size: 13px;
+}
+
+#screen-setup .role-card p {
+    display: none;
+    /* Hide description for space */
+}
+/* Compact Setup Screen Overrides */
+#screen-setup {
+    background: #f8fafc;
+}
+
+#screen-setup h2.section-title {
+    font-size: 15px;
+    font-weight: 800;
+}
+
+#screen-setup p.section-label {
+    font-size: 9px;
+}
+
+#screen-setup p.section-subtitle {
+    display: none; /* Hide subtitles to save vertical space */
+}
+
+#screen-setup .form-section {
+    padding: 10px 15px;
+    margin-top: 5px;
+}
+
+#screen-setup .input-group input {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.compact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+#screen-setup .role-card {
+    padding: 8px;
+}
+
+#screen-setup .role-card i {
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+#screen-setup .role-card h3 {
+    font-size: 12px;
+}
+
+#screen-setup .role-card p {
+    display: none;
+}
+
+/* Splash styles */
+.splash-bg {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #003566 100%);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.splash-logo {
+    font-size: 72px;
+    margin-bottom: 20px;
     color: var(--accent-color);
 }

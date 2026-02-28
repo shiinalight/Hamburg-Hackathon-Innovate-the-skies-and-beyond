@@ -15,7 +15,7 @@
 <body>
     <div class="app-container">
         <!-- Global Top Navigation -->
-        <nav class="top-nav">
+        <nav class="top-nav" id="main-nav">
             <div class="logo">
                 <i class="fa-solid fa-shuttle-van"></i>
                 <span>Matchy</span>
@@ -42,65 +42,25 @@
                 <h1 class="hero-title">Hop on.<br>Roll together.</h1>
                 <div class="hero-image-container" style="background: none; padding: 0;">
                     <svg viewBox="0 0 400 250" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Background -->
                         <rect width="400" height="250" rx="20" fill="#f0f4f8" />
-
-                        <!-- Globe -->
                         <g transform="translate(200, 110)">
                             <circle cx="0" cy="0" r="70" fill="#3b82f6" opacity="0.1" />
                             <circle cx="0" cy="0" r="55" fill="#3b82f6" />
-                            <!-- Continents approx -->
-                            <path
-                                d="M -30 -20 Q -10 -40, 10 -20 T 40 0 C 45 20, 20 40, -10 30 C -30 20, -50 0, -30 -20 Z"
-                                fill="#86efac" opacity="0.8" />
-                            <path d="M 20 -40 Q 30 -50, 45 -35 T 30 -15 Z" fill="#86efac" opacity="0.8" />
-                            <!-- Latitude/Longitude Lines -->
                             <ellipse cx="0" cy="0" rx="55" ry="25" fill="none" stroke="#fff" stroke-width="1.5"
                                 opacity="0.5" />
                             <ellipse cx="0" cy="0" rx="25" ry="55" fill="none" stroke="#fff" stroke-width="1.5"
                                 opacity="0.5" />
-                            <line x1="-55" y1="0" x2="55" y2="0" stroke="#fff" stroke-width="1.5" opacity="0.5" />
-                            <line x1="0" y1="-55" x2="0" y2="55" stroke="#fff" stroke-width="1.5" opacity="0.5" />
                         </g>
-
-                        <!-- Traveler 1 (Left) -->
                         <g transform="translate(130, 110)">
-                            <!-- Shadow -->
-                            <ellipse cx="0" cy="75" rx="15" ry="3" fill="#001233" opacity="0.1" />
-                            <!-- Body -->
                             <path d="M -12 25 Q 0 10, 12 25 L 15 70 L -15 70 Z" fill="#f4b400" />
-                            <!-- Head -->
                             <circle cx="0" cy="5" r="14" fill="#001233" />
-                            <!-- Luggage -->
-                            <rect x="-25" y="45" width="14" height="25" rx="2" fill="#333" />
-                            <path d="M -22 45 L -22 35 L -16 35 L -16 45" fill="none" stroke="#333" stroke-width="2" />
                         </g>
-
-                        <!-- Traveler 2 (Right) -->
                         <g transform="translate(270, 105)">
-                            <!-- Shadow -->
-                            <ellipse cx="0" cy="80" rx="15" ry="3" fill="#001233" opacity="0.1" />
-                            <!-- Body -->
                             <path d="M -10 30 Q 0 15, 10 30 L 12 75 L -12 75 Z" fill="#10b981" />
-                            <!-- Head -->
                             <circle cx="0" cy="10" r="12" fill="#001233" />
-                            <!-- Backpack -->
-                            <path d="M 10 35 Q 20 45, 12 60 L 8 60 Z" fill="#333" />
                         </g>
-
-                        <!-- Connecting Flight Path -->
                         <path d="M 130 90 Q 200 10, 270 90" fill="none" stroke="#f4b400" stroke-width="3"
                             stroke-dasharray="6,4" />
-                        <!-- Small Plane -->
-                        <path
-                            d="M195 45 L205 45 L220 60 L225 60 C228 60, 230 58, 225 55 L210 40 L210 30 L205 30 L200 40 L190 40 Z"
-                            fill="#f4b400" transform="translate(5, -15) rotate(15 200 45)" />
-
-                        <!-- Decorative Elements / Floating Icons -->
-                        <circle cx="80" cy="60" r="4" fill="#f4b400" opacity="0.6" />
-                        <circle cx="320" cy="50" r="6" fill="#3b82f6" opacity="0.5" />
-                        <circle cx="340" cy="160" r="3" fill="#10b981" opacity="0.6" />
-                        <circle cx="60" cy="150" r="5" fill="#3b82f6" opacity="0.5" />
                     </svg>
                 </div>
             </div>
@@ -145,234 +105,177 @@
                 </div>
             </header>
 
-            <div class="scroll-content">
+            <div class="scroll-content" style="max-height: calc(100vh - 120px); overflow: hidden;">
                 <div class="form-section">
-                    <p class="section-label">The Destination</p>
-                    <h2 class="section-title">Where are you heading?</h2>
-                    <p class="section-subtitle">(e.g., Berlin Brandenburg (BER))</p>
-                    <div class="input-group">
-                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                        <input type="text" id="input-destination" placeholder="Search Airport or Destination"
-                            value="Alexanderplatz">
-                    </div>
-                    <div class="form-section">
-                        <p class="section-label">Flight Details</p>
-                        <h2 class="section-title">Flight Number</h2>
-                        <p class="section-subtitle">We'll match you with others on the same flight!</p>
+                    <p class="section-label">Where to?</p>
+                    <h2 class="section-title">Destination & Flight</h2>
+                    <div class="compact-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div class="input-group">
+                            <i class="fa-solid fa-location-dot search-icon"></i>
+                            <input type="text" id="input-destination" placeholder="Alexanderplatz"
+                                value="Alexanderplatz">
+                        </div>
                         <div class="input-group">
                             <i class="fa-solid fa-plane-arrival search-icon"></i>
-                            <input type="text" id="input-flight" placeholder="e.g. LH2024 or EW123" value="">
+                            <input type="text" id="input-flight" placeholder="LH2024" value="">
                         </div>
                     </div>
+                </div>
 
-                    <div class="form-section">
-                        <p class="section-label">Timing</p>
-                        <h2 class="section-title">Arrival Window</h2>
-                        <div class="pill-group">
-                            <button class="pill active">Now (00m)</button>
-                            <button class="pill">Today</button>
-                            <button class="pill">Tomorrow</button>
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <p class="section-label">Preferences</p>
-                        <h2 class="section-title">Match Me With...</h2>
-
+                <div class="form-section">
+                    <p class="section-label">Preferences</p>
+                    <h2 class="section-title">Matching Details</h2>
+                    <div class="pref-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                         <div class="select-group">
-                            <label class="field-label">Preferred Language</label>
+                            <label class="field-label">Language</label>
                             <select id="select-language">
                                 <option>English</option>
                                 <option>German</option>
-                                <option>Spanish</option>
                             </select>
                             <i class="fa-solid fa-chevron-down select-icon"></i>
                         </div>
-
                         <div class="select-group">
-                            <label class="field-label">Preferred Transport</label>
+                            <label class="field-label">Transport</label>
                             <select id="select-transport">
-                                <option>Taxi, Public Transit</option>
+                                <option>Taxi</option>
                                 <option>Ride-share</option>
                             </select>
                             <i class="fa-solid fa-chevron-down select-icon"></i>
                         </div>
-
                         <div class="select-group">
-                            <label class="field-label">Age Group</label>
+                            <label class="field-label">Age</label>
                             <select id="select-age">
-                                <option>No Preference</option>
-                                <option>18-24</option>
+                                <option>No Pref</option>
                                 <option selected>25-35</option>
-                                <option>36-50</option>
-                                <option>51+</option>
                             </select>
                             <i class="fa-solid fa-chevron-down select-icon"></i>
                         </div>
-
                         <div class="select-group">
-                            <label class="field-label">Gender Preference</label>
-                            <select id="select-gender">
-                                <option selected>No Pref</option>
-                                <option>Same as me</option>
-                            </select>
-                            <i class="fa-solid fa-chevron-down select-icon"></i>
-                        </div>
-
-                        <div class="select-group">
-                            <label class="field-label">Student Status</label>
-                            <select id="select-student">
-                                <option>Any</option>
-                                <option selected>Yes</option>
-                                <option>No</option>
-                            </select>
-                            <i class="fa-solid fa-chevron-down select-icon"></i>
-                        </div>
-
-                        <div class="select-group">
-                            <label class="field-label">Shuttle Capacity</label>
+                            <label class="field-label">Capacity</label>
                             <select id="select-capacity">
-                                <option value="1">1 Person</option>
-                                <option value="2">2 People</option>
-                                <option value="3">3 People</option>
-                                <option selected value="4">4 People (Standard)</option>
-                                <option value="6">6 People (XL)</option>
+                                <option value="4" selected>4 People</option>
+                                <option value="6">6 People</option>
                             </select>
                             <i class="fa-solid fa-chevron-down select-icon"></i>
                         </div>
                     </div>
+                </div>
 
-                    <div class="form-section">
-                        <p class="section-label">The Profile</p>
-                        <h2 class="section-title">Your Role</h2>
-                        <div class="role-grid">
-                            <div class="role-card active">
-                                <i class="fa-solid fa-shuttle-van"></i>
-                                <h3>Join a Shuttle</h3>
-                                <p>I want to join a ride.</p>
-                            </div>
-                            <div class="role-card">
-                                <i class="fa-solid fa-map-location-dot"></i>
-                                <h3>City Host</h3>
-                                <p>I know Berlin well.</p>
-                            </div>
+                <div class="form-section" style="padding-bottom: 5px;">
+                    <p class="section-label">Your Role</p>
+                    <div class="role-grid" style="gap: 8px;">
+                        <div class="role-card active" style="padding: 10px;">
+                            <i class="fa-solid fa-shuttle-van" style="font-size: 16px;"></i>
+                            <h3 style="font-size: 13px;">Joiner</h3>
+                        </div>
+                        <div class="role-card" style="padding: 10px;">
+                            <i class="fa-solid fa-map-location-dot" style="font-size: 16px;"></i>
+                            <h3 style="font-size: 13px;">Host</h3>
                         </div>
                     </div>
                 </div>
 
-                <div class="action-footer">
-                    <button class="btn btn-primary btn-large" onclick="handleFindShuttles()">Find Similar
-                        Shuttles</button>
+                <div class="action-footer" style="padding: 10px;">
+                    <button class="btn btn-primary btn-large" onclick="handleFindShuttles()">Match Shuttles</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: Shuttles -->
+        <div id="screen-shuttles" class="screen shuttles-screen">
+            <header class="shuttles-header">
+                <div class="header-top">
+                    <button class="icon-btn dark" onclick="navigateTo('screen-home')"><i
+                            class="fa-solid fa-arrow-left"></i></button>
+                </div>
+                <h2>Similar Shuttles <span class="found-text">(Top 3)</span></h2>
+            </header>
+
+            <div class="shuttles-list" id="llm-shuttle-list">
+                <!-- LLM will inject matches here -->
+                <div style="padding: 20px; text-align: center; color: var(--text-muted);">
+                    Waiting for your request...
                 </div>
             </div>
 
-            <!-- SCREEN 3: Shuttles -->
-            <div id="screen-shuttles" class="screen shuttles-screen">
-                <header class="shuttles-header">
-                    <div class="header-top">
-                        <button class="icon-btn dark" onclick="navigateTo('screen-setup')"><i
-                                class="fa-solid fa-arrow-left"></i></button>
-                    </div>
-                    <h2>Similar Shuttles <span class="found-text">(Top 3)</span></h2>
-                </header>
-
-                <div class="shuttles-list" id="llm-shuttle-list">
-                    <!-- LLM will inject matches here -->
-                    <div style="padding: 20px; text-align: center; color: var(--text-muted);">
-                        Waiting for your request...
-                    </div>
-                </div>
-
-                <div class="action-footer" style="position: static; padding: 20px;">
-                    <p style="text-align: center; margin-bottom: 10px; color: var(--text-muted);">Don't see a fit?</p>
-                    <button class="btn btn-primary btn-large" onclick="handleCreateShuttle()">Create New Shuttle
-                        Request</button>
-                </div>
+            <div class="action-footer" style="position: static; padding: 20px;">
+                <p style="text-align: center; margin-bottom: 10px; color: var(--text-muted);">Don't see a fit?</p>
+                <button class="btn btn-primary btn-large" onclick="handleCreateShuttle()">Create New Shuttle
+                    Request</button>
             </div>
+        </div>
 
-            <!-- SCREEN 4: Messages -->
-            <div id="screen-messages" class="screen">
-                <header class="app-header">
-                    <h2>Messages</h2>
-                </header>
-                <div class="scroll-content">
-                    <div class="message-list">
-                        <div class="message-item unread">
-                            <img src="avatar1.png" alt="Sophie R." class="avatar">
-                            <div class="message-info">
-                                <h4>Sophie R. <span class="time">10:42 AM</span></h4>
-                                <p>Hi! Are you still looking for someone to split a ride to Alexanderplatz?</p>
-                            </div>
-                        </div>
-                        <div class="message-item">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Liam K." class="avatar">
-                            <div class="message-info">
-                                <h4>Liam K. <span class="time">Yesterday</span></h4>
-                                <p>Great meeting you! Safe travels.</p>
-                            </div>
+        <!-- SCREEN 4: Messages -->
+        <div id="screen-messages" class="screen">
+            <header class="app-header">
+                <h2>Messages</h2>
+            </header>
+            <div class="scroll-content">
+                <div class="message-list">
+                    <div class="message-item unread">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sophie R." class="avatar">
+                        <div class="message-info">
+                            <h4>Sophie R. <span class="time">10:42 AM</span></h4>
+                            <p>Hi! Are you still looking for someone to split a ride to Alexanderplatz?</p>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- SCREEN 5: Profile -->
-            <div id="screen-profile" class="screen">
-                <header class="app-header">
-                    <h2>Profile</h2>
-                </header>
-                <div class="scroll-content">
-                    <div class="profile-header text-center">
-                        <img src="https://randomuser.me/api/portraits/women/40.jpg" alt="My Profile"
-                            class="avatar-large">
-                        <h2>Sarah M.</h2>
-                        <p class="text-muted">Explorer 🌍 | Member since 2024</p>
-                    </div>
-                    <div class="profile-stats">
-                        <div class="stat">
-                            <h3 id="stat-rides">14</h3>
-                            <p>Rides Shared</p>
+                    <div class="message-item">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Liam K." class="avatar">
+                        <div class="message-info">
+                            <h4>Liam K. <span class="time">Yesterday</span></h4>
+                            <p>Great meeting you! Safe travels.</p>
                         </div>
-                        <div class="stat">
-                            <h3 id="stat-co2">120kg</h3>
-                            <p>CO2 Saved</p>
-                        </div>
-                        <div class="stat">
-                            <h3>4.9</h3>
-                            <p>Rating</p>
-                        </div>
-                    </div>
-
-                    <div class="badges-section">
-                        <h3>My Badges</h3>
-                        <div class="badges-grid" id="user-badges">
-                            <!-- Badges injected by JS -->
-                            <div class="badge-item active">
-                                <i class="fa-solid fa-seedling"></i>
-                                <span>Seedling</span>
-                            </div>
-                            <div class="badge-item locked">
-                                <i class="fa-solid fa-shuttle-van"></i>
-                                <span>Driver</span>
-                            </div>
-                            <div class="badge-item locked">
-                                <i class="fa-solid fa-plane"></i>
-                                <span>Skies</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="profile-menu">
-                        <button class="menu-item"><i class="fa-solid fa-user-pen"></i> Edit Profile</button>
-                        <button class="menu-item"><i class="fa-solid fa-gear"></i> Settings</button>
-                        <button class="menu-item"><i class="fa-solid fa-circle-question"></i> Help & Support</button>
-                        <button class="menu-item text-danger"><i class="fa-solid fa-arrow-right-from-bracket"></i>
-                            Logout</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <script src="script.js"></script>
+        <!-- SCREEN 5: Profile -->
+        <div id="screen-profile" class="screen">
+            <header class="app-header">
+                <h2>Profile</h2>
+            </header>
+            <div class="scroll-content">
+                <div class="profile-header text-center">
+                    <img src="https://randomuser.me/api/portraits/women/40.jpg" alt="My Profile" class="avatar-large">
+                    <h2>Sarah M.</h2>
+                    <p class="text-muted">Explorer 🌍 | Member since 2024</p>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <h3 id="stat-rides">14</h3>
+                        <p>Rides Shared</p>
+                    </div>
+                    <div class="stat">
+                        <h3 id="stat-co2">120kg</h3>
+                        <p>CO2 Saved</p>
+                    </div>
+                    <div class="stat">
+                        <h3>4.9</h3>
+                        <p>Rating</p>
+                    </div>
+                </div>
+
+                <div class="badges-section">
+                    <h3>My Badges</h3>
+                    <div class="badges-grid" id="user-badges">
+                        <!-- Badges injected by JS -->
+                    </div>
+                </div>
+
+                <div class="profile-menu">
+                    <button class="menu-item"><i class="fa-solid fa-user-pen"></i> Edit Profile</button>
+                    <button class="menu-item"><i class="fa-solid fa-gear"></i> Settings</button>
+                    <button class="menu-item"><i class="fa-solid fa-circle-question"></i> Help & Support</button>
+                    <button class="menu-item text-danger" onclick="navigateTo('screen-home')"><i
+                            class="fa-solid fa-arrow-right-from-bracket"></i>
+                        Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
