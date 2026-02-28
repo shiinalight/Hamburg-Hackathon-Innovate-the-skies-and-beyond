@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  --primary-color: #001233;
+  --secondary-color: #f0f4f8;
+  --accent-color: #f4b400;
+  --text-main: #333333;
+  --text-muted: #666666;
+  --bg-main: #ffffff;
+  --bg-alt: #f8f9fa;
+  --border-color: #e5e7eb;
+  --success-color: #10b981;
+  --blue-highlight: #3b82f6;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --border-radius: 20px;
+  --border-radius-sm: 12px;
+}
+
+body {
+  color: var(--text-main);
+  background: var(--bg-alt);
+  font-family: var(--font-inter), sans-serif;
+}
+
+/* Custom Base Styles from old project */
+.app-container {
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+}
+
+.hero-section {
+  padding: 24px 20px;
+  background: var(--bg-main);
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 30px;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #002855;
+  transform: translateY(-1px);
+}
+
+.shuttle-card {
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.shuttle-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--secondary-color);
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 14px 16px 14px 44px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-group i {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
