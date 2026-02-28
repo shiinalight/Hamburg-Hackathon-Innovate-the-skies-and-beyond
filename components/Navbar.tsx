@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BusFront, Users, MessageCircle, User, Star, Bell } from "lucide-react";
+import Image from "next/image";
 import PointsDisplay from "./PointsDisplay";
 
 export default function Navbar() {
@@ -21,9 +22,9 @@ export default function Navbar() {
 
     return (
         <nav className="flex justify-between items-center bg-white px-8 py-4 border-b border-gray-200 z-20 sticky top-0 w-full shadow-sm">
-            <div className={`flex items-center gap-2 font-bold text-2xl text-[#001233] transition-opacity duration-300 ${shouldHideLogo ? "opacity-0 invisible" : "opacity-100"}`}>
-                <BusFront className="text-blue-500 fill-current" />
-                <span>Matchy</span>
+            <div className={`flex items-center gap-3 font-bold text-2xl text-[#001233] transition-opacity duration-300 ${shouldHideLogo ? "opacity-0 invisible" : "opacity-100"}`}>
+                <Image src="/logo.svg" alt="Matchy Logo" width={32} height={32} className="w-8 h-8" />
+                <span className="tracking-tight">Matchy</span>
             </div>
 
             <div className="flex gap-8 items-center">
