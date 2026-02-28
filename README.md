@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚗 Matchy: Smart Shuttle Sharing
 
-## Getting Started
+Matchy is a premium shuttle-sharing application designed for travelers who want to save money, reduce their carbon footprint, and meet new people. Built for the **Hamburg Hackathon**, it leverages state-of-the-art AI to connect users traveling to similar destinations.
 
-First, run the development server:
+## 🌟 Key Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 🤖 AI-Powered Matching Engine (Gemini 1.5 Flash)
+The core of Matchy is its intelligent matching system powered by **Google Gemini AI**. 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Sophisticated Logic**: Instead of simple keyword matching, the AI understands the nuances of travel requests.
+- **Priority Ranking**: Matches are ranked based on flight numbers (highest priority), destination proximity, language preferences, and transport types.
+- **Human-Readable Insights**: For every match found, the AI provides a "Compatibility Reason," explaining exactly why two travelers are a good fit (e.g., *"Matched based on your shared flight LH2024 and English preference"*).
+- **Robust Fallback**: The backend is configured with multi-model resilience, ensuring high availability by automatically switching between Gemini Flash and Pro models.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🍃 Sustainable Travel
+A built-in carbon impact calculator shows users exactly how much CO2 they've saved by sharing a ride, encouraging eco-friendly travel choices.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 💎 Premium User Experience
+- **Next.js & React**: Built on the latest Next.js 15 framework for lightning-fast performance and SEO optimization.
+- **Fluid Animations**: Smooth page transitions and micro-interactions powered by `Framer Motion`.
+- **Responsive Design**: A sleek, mobile-first design system tailored for travelers on the move.
 
-## Learn More
+## 🛠️ Tech Stack
+- **Frontend**: Next.js (App Router), TypeScript, Tailwind CSS, Framer Motion, Lucide React
+- **AI**: Google Generative AI SDK (Gemini 1.5 Flash & Pro)
+- **Deployment**: Fully optimized for Vercel Serverless Functions
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the repository**
+2. **Setup environment variables**: Create a `.env.local` file with your `GEMINI_API_KEY`.
+3. **Install dependencies**: 
+   ```bash
+   npm install
+   ```
+4. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
+5. **Open the App**: Navigate to [http://localhost:3000](http://localhost:3000)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*Created for the "Innovate the Skies and Beyond" Hackathon - Hamburg.*
