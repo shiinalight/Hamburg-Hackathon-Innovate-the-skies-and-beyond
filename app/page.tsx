@@ -176,9 +176,9 @@ export default function Home() {
                   <div>
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2 px-2">Min. Seats</label>
                     <div className="relative">
-                      <select id="select-capacity" className="w-full px-4 py-4 rounded-2xl border border-gray-200 bg-white appearance-none outline-none focus:border-blue-500 font-semibold cursor-pointer">
+                      <select id="select-capacity" defaultValue="4" className="w-full px-4 py-4 rounded-2xl border border-gray-200 bg-white appearance-none outline-none focus:border-blue-500 font-semibold cursor-pointer">
                         <option value="2">2 People</option>
-                        <option value="4" selected>4 People</option>
+                        <option value="4">4 People</option>
                         <option value="6">6 People</option>
                       </select>
                       <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 rotate-90 pointer-events-none" size={16} />
@@ -187,9 +187,9 @@ export default function Home() {
                   <div>
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2 px-2">Age Preference</label>
                     <div className="relative">
-                      <select id="select-age" className="w-full px-4 py-4 rounded-2xl border border-gray-200 bg-white appearance-none outline-none focus:border-blue-500 font-semibold cursor-pointer">
+                      <select id="select-age" defaultValue="25-35" className="w-full px-4 py-4 rounded-2xl border border-gray-200 bg-white appearance-none outline-none focus:border-blue-500 font-semibold cursor-pointer">
                         <option>No Pref</option>
-                        <option selected>25-35</option>
+                        <option>25-35</option>
                       </select>
                       <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 rotate-90 pointer-events-none" size={16} />
                     </div>
