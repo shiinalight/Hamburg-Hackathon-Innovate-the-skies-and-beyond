@@ -17,46 +17,44 @@ export default function ShuttlesPage() {
             setLoading(true);
             const prefs = JSON.parse(localStorage.getItem('matchy_search_prefs') || 'null');
 
-            // Get all local shuttles
-            const allShuttles = JSON.parse(localStorage.getItem('matchy_shuttles_v1') || '[]');
-            if (allShuttles.length === 0) {
-                // Initialize mock if empty
-                const mockShuttles = [
-                    { id: 1, host: "Sophie R.", title: "Sophie's Shuttle", capacity: 4, occupied: 3, dest: "Alexanderplatz", time: "15:45", lang: "English", transport: "Taxi", badge: "Standard Host", avatar: "https://randomuser.me/api/portraits/women/44.jpg", budget: "$15" },
-                    { id: 2, host: "Liam K.", title: "Liam's XL Shuttle", capacity: 6, occupied: 2, dest: "Potsdamer Platz", time: "16:00", lang: "English", transport: "Ride-share", badge: "Pro Host", avatar: "https://randomuser.me/api/portraits/men/32.jpg", budget: "$22" },
-                    { id: 3, host: "Aisha B.", title: "Aisha's Green Shuttle", capacity: 4, occupied: 1, dest: "Alexanderplatz", time: "15:30", lang: "German", transport: "Public Transit", badge: "Eco-Friendly", avatar: "https://randomuser.me/api/portraits/women/68.jpg", budget: "$8" },
-                    { id: 4, host: "Mark J.", title: "Mark's Relaxed Ride", capacity: 4, occupied: 2, dest: "Alexanderplatz", time: "16:30", lang: "English", transport: "Taxi", badge: "Friendly", avatar: "https://randomuser.me/api/portraits/men/12.jpg", budget: "$18" },
-                    { id: 5, host: "Elena S.", title: "Elena's Airport Express", capacity: 4, occupied: 3, dest: "Potsdamer Platz", time: "15:15", lang: "Spanish", transport: "Ride-share", badge: "Verified", avatar: "https://randomuser.me/api/portraits/women/33.jpg", budget: "$20" }
-                ];
-                localStorage.setItem('matchy_shuttles_v1', JSON.stringify(mockShuttles));
-            }
-
-            if (prefs) {
-                try {
+            try {
+                // 1. Try to get AI matches
+                if (prefs) {
                     const response = await fetch('/api/shuttles/match', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ prefs, shuttles: JSON.parse(localStorage.getItem('matchy_shuttles_v1') || '[]') })
+                        body: JSON.stringify({ prefs })
                     });
                     const data = await response.json();
 
                     if (!data.error) {
-                        const all = JSON.parse(localStorage.getItem('matchy_shuttles_v1') || '[]');
+                        // We need the full shuttle data for these IDs
+                        const allResp = await fetch('/api/shuttles');
+                        const all = await allResp.json();
+
                         const matchedShuttles = data.map((m: any) => ({
                             ...all.find((s: any) => s.id === m.id),
                             similarity: m.similarity,
                             reason: m.reason
                         })).filter((s: any) => s.id !== undefined);
+
                         setMatches(matchedShuttles);
                     } else {
-                        setMatches(allShuttles.slice(0, 3));
+                        const allResp = await fetch('/api/shuttles');
+                        const all = await allResp.json();
+                        setMatches(all.slice(0, 3));
                     }
-                } catch (error) {
-                    console.error(error);
-                    setMatches(allShuttles.slice(0, 3));
+                } else {
+                    const allResp = await fetch('/api/shuttles');
+                    const all = await allResp.json();
+                    setMatches(all);
                 }
-            } else {
-                setMatches(allShuttles);
+            } catch (error) {
+                console.error("Fetch Error:", error);
+                // Fallback to all shuttles if API fails
+                const allResp = await fetch('/api/shuttles');
+                const all = await allResp.json();
+                setMatches(all.slice(0, 3));
             }
             setLoading(false);
         };

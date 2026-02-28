@@ -17,43 +17,68 @@ function ManageContent() {
     const [members, setMembers] = useState<any[]>([]);
 
     useEffect(() => {
-        const id = searchParams.get('id');
-        const create = searchParams.get('create');
-        const all = JSON.parse(localStorage.getItem('matchy_shuttles_v1') || '[]');
+        const loadData = async () => {
+            const id = searchParams.get('id');
+            const create = searchParams.get('create');
 
-        let target = null;
-        if (id) {
-            target = all.find((s: any) => s.id == id);
-        } else if (create) {
-            // Mock creation logic for demo
-            const prefs = JSON.parse(localStorage.getItem('matchy_search_prefs') || '{}');
-            target = {
-                id: all.length + 1,
-                host: "You",
-                title: prefs.flight ? `Flight ${prefs.flight} Shuttle` : "Your New Shuttle",
-                capacity: parseInt(prefs.capacity || 4),
-                occupied: 1,
-                dest: prefs.dest || "Alexanderplatz",
-                time: "Now",
-                lang: prefs.lang || "English",
-                transport: prefs.transport || "Taxi",
-                badge: "New Request",
-                avatar: "https://randomuser.me/api/portraits/lego/1.jpg"
-            };
-            // Save it
-            const nextAll = [...all, target];
-            localStorage.setItem('matchy_shuttles_v1', JSON.stringify(nextAll));
-        } else {
-            target = all.find((s: any) => s.host === 'You');
-        }
+            if (create) {
+                const prefs = JSON.parse(localStorage.getItem('matchy_search_prefs') || '{}');
+                const user = JSON.parse(localStorage.getItem('matchy_user_v1') || '{"name": "You", "avatar": "https://randomuser.me/api/portraits/lego/1.jpg"}');
 
-        if (target) {
-            setShuttle(target);
-            setMembers([
-                { name: "You", role: "Host", avatar: target.avatar },
-                { name: "Sarah M.", role: "Joiner", status: "Requested", avatar: "https://randomuser.me/api/portraits/women/40.jpg" }
-            ]);
-        }
+                try {
+                    const response = await fetch('/api/shuttles', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            host: user.name,
+                            title: prefs.flight ? `Flight ${prefs.flight} Shuttle` : "Your New Shuttle",
+                            capacity: parseInt(prefs.capacity || 4),
+                            occupied: 1,
+                            dest: prefs.dest || "Alexanderplatz",
+                            time: "Now",
+                            lang: prefs.lang || "English",
+                            transport: prefs.transport || "Taxi",
+                            badge: "New Request",
+                            avatar: user.avatar
+                        })
+                    });
+                    const data = await response.json();
+                    if (data.id) {
+                        router.replace(`/manage?id=${data.id}`);
+                    }
+                } catch (e) {
+                    console.error("Create failed", e);
+                }
+            } else if (id) {
+                try {
+                    const response = await fetch(`/api/shuttles/${id}`);
+                    const data = await response.json();
+                    if (!data.error) {
+                        setShuttle(data);
+                        setMembers(data.members || [{ name: data.host, role: "Host", avatar: data.avatar }]);
+                    }
+                } catch (e) {
+                    console.error("Fetch failed", e);
+                }
+            } else {
+                // Try to find if user has a shuttle
+                try {
+                    const response = await fetch('/api/shuttles');
+                    const all = await response.json();
+                    const target = all.find((s: any) => s.host === 'You' || s.host === 'Alex Johnson');
+                    if (target) {
+                        const detailResp = await fetch(`/api/shuttles/${target.id}`);
+                        const detail = await detailResp.json();
+                        setShuttle(detail);
+                        setMembers(detail.members);
+                    }
+                } catch (e) {
+                    console.error("Fetch list failed", e);
+                }
+            }
+        };
+
+        loadData();
     }, [searchParams]);
 
     const handleEdit = () => {

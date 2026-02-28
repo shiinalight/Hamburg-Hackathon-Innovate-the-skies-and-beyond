@@ -1,15 +1,19 @@
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getDb } from "@/lib/db";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
 export async function POST(req: Request) {
     try {
-        const { prefs, shuttles } = await req.json();
+        const { prefs } = await req.json();
 
         if (!process.env.GEMINI_API_KEY) {
             return NextResponse.json({ error: "Gemini API key not configured" }, { status: 500 });
         }
+
+        const db = await getDb();
+        const shuttles = await db.all('SELECT * FROM shuttles');
 
         const prompt = `
     You are the matching engine for "Matchy", a shuttle-sharing app.
