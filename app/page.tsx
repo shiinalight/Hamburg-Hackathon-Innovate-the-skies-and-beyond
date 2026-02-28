@@ -197,19 +197,6 @@ export default function Home() {
                 </div>
               </section>
 
-              <section>
-                <h2 className="text-2xl font-black text-[#001233] mb-4">Your Role</h2>
-                <div className="grid grid-cols-2 gap-4">
-                  <button className="flex flex-col items-center justify-center p-6 border-2 border-blue-500 bg-blue-50 rounded-2xl transition-all">
-                    <Car size={32} className="text-blue-600 mb-2" />
-                    <span className="font-bold">Host</span>
-                  </button>
-                  <button className="flex flex-col items-center justify-center p-6 border-2 border-gray-100 bg-white rounded-2xl grayscale hover:grayscale-0 hover:border-blue-200 transition-all">
-                    <Users size={32} className="text-gray-400 mb-2" />
-                    <span className="font-bold text-gray-500">Joiner</span>
-                  </button>
-                </div>
-              </section>
             </div>
 
             <div className="fixed bottom-0 left-0 right-0 max-w-[1200px] mx-auto p-6 bg-white/80 backdrop-blur-md border-t border-gray-100 z-30">
