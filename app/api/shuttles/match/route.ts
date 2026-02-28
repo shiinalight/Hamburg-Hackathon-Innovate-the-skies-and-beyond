@@ -13,7 +13,11 @@ export async function POST(req: Request) {
         }
 
         const db = await getDb();
-        const shuttles = await db.all('SELECT * FROM shuttles');
+        const shuttles = await db.all(`
+            SELECT s.*, f.status as flightStatus, f.last_updated as flight_last_updated 
+            FROM shuttles s
+            LEFT JOIN flights f ON s.flight = f.flight_no
+        `);
 
         const prompt = `
     You are the matching engine for "Matchy", a shuttle-sharing app.

@@ -32,6 +32,7 @@ function ManageContent() {
                         body: JSON.stringify({
                             host: user.name,
                             title: prefs.flight ? `Flight ${prefs.flight} Shuttle` : "Your New Shuttle",
+                            flight: prefs.flight,
                             capacity: parseInt(prefs.capacity || 4),
                             occupied: 1,
                             dest: prefs.dest || "Alexanderplatz",
@@ -161,7 +162,14 @@ function ManageContent() {
                             </div>
                             <div>
                                 <p className="text-[10px] font-bold text-gray-400 uppercase">Flight Ref</p>
-                                <p className="text-sm font-bold text-[#001233]">{shuttle.flight || "N/A"}</p>
+                                <div className="flex items-center gap-2">
+                                    <p className="text-sm font-bold text-[#001233]">{shuttle.flight || "N/A"}</p>
+                                    {shuttle.flightStatus && (
+                                        <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${shuttle.flightStatus === 'Delayed' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>
+                                            {shuttle.flightStatus}
+                                        </span>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         <div className="flex items-center gap-3">

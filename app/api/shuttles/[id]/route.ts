@@ -7,7 +7,12 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
         const { id } = await params;
         const shuttleId = parseInt(id);
 
-        const shuttle = await db.get('SELECT * FROM shuttles WHERE id = ?', [shuttleId]);
+        const shuttle = await db.get(`
+            SELECT s.*, f.status as flightStatus, f.last_updated as flight_last_updated 
+            FROM shuttles s
+            LEFT JOIN flights f ON s.flight = f.flight_no
+            WHERE s.id = ?
+        `, [shuttleId]);
         if (!shuttle) {
             return NextResponse.json({ error: "Shuttle not found" }, { status: 404 });
         }

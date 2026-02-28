@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ArrowLeft, Users, MapPin, Star, CheckCircle, Info, Sparkles, BusFront } from "lucide-react";
+import { ArrowLeft, Users, MapPin, Star, CheckCircle, Info, Sparkles, BusFront, PlaneTakeoff } from "lucide-react";
 
 export default function ShuttlesPage() {
     const [matches, setMatches] = useState<any[]>([]);
@@ -127,6 +127,19 @@ export default function ShuttlesPage() {
                                 <div className="flex items-center gap-4 text-sm font-semibold text-gray-700">
                                     <MapPin size={16} className="text-gray-400 group-hover:text-blue-500 transition-colors" /> {shuttle.dest} ({shuttle.time})
                                 </div>
+                                {(shuttle.flight || shuttle.flightStatus) && (
+                                    <div className="flex items-center gap-4 text-sm font-semibold text-gray-700">
+                                        <PlaneTakeoff size={16} className="text-gray-400 group-hover:text-blue-500 transition-colors" />
+                                        <div className="flex items-center gap-2">
+                                            {shuttle.flight || "Flight Info"}
+                                            {shuttle.flightStatus && (
+                                                <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full ${shuttle.flightStatus === 'Delayed' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>
+                                                    {shuttle.flightStatus}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                                 <div className="flex items-center gap-4 text-sm font-black text-[#001233]">
                                     <BusFront size={16} className="text-gray-400" /> {shuttle.similarity || 'High Match'}
                                 </div>

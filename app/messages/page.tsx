@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
     Search, MoreVertical, Send, Check,
     CheckCheck, Image as ImageIcon, Smile,
-    MapPin, Phone, ArrowLeft
+    MapPin, Phone, ArrowLeft, Info
 } from "lucide-react";
 
 export default function MessagesPage() {
@@ -25,6 +25,7 @@ export default function MessagesPage() {
                 { id: 1, text: "Hey! Are you still joining the shuttle?", sent: false, time: "2:30 PM" },
                 { id: 2, text: "Yes, I just landed! Just waiting for my bag.", sent: true, time: "2:35 PM" },
                 { id: 3, text: "Perfect. I'll be at the terminal 1 exit, see you there!", sent: false, time: "2:45 PM" },
+                { id: 4, text: "Flight LH2024 Update: Your arrival will be at 16:00. You have a 15-minute delay.", sent: false, time: "2:46 PM", isSystem: true },
             ]
         },
         {
@@ -141,21 +142,32 @@ export default function MessagesPage() {
 
                             {/* Messages Content */}
                             <div className="flex-grow overflow-y-auto p-8 space-y-6 bg-[#fcfdfe]">
-                                {currentChat.messages.map((msg) => (
-                                    <div key={msg.id} className={`flex ${msg.sent ? 'justify-end' : 'justify-start'}`}>
-                                        <div className={`max-w-[80%] ${msg.sent ? 'order-2' : ''}`}>
-                                            <div className={`p-5 rounded-[28px] text-sm font-semibold shadow-sm ${msg.sent
-                                                    ? 'bg-[#001233] text-white rounded-tr-none'
-                                                    : 'bg-white text-[#001233] border border-gray-100 rounded-tl-none'
-                                                }`}>
-                                                {msg.text}
-                                            </div>
-                                            <div className={`flex items-center gap-2 mt-2 px-2 ${msg.sent ? 'justify-end' : 'justify-start'}`}>
-                                                <span className="text-[10px] font-bold text-gray-400 uppercase">{msg.time}</span>
-                                                {msg.sent && <CheckCheck size={14} className="text-blue-500" />}
+                                {currentChat.messages.map((msg: any) => (
+                                    msg.isSystem ? (
+                                        <div key={msg.id} className="flex justify-center my-6">
+                                            <div className="bg-blue-50/50 border border-blue-100 rounded-3xl p-5 flex flex-col items-center text-center shadow-sm w-[90%] md:w-[80%] relative overflow-hidden">
+                                                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-full blur-3xl -z-10 -mr-10 -mt-10 opacity-60" />
+                                                <Image src="/logo.svg" alt="Matchy" width={40} height={40} className="mb-3" />
+                                                <p className="text-sm font-black text-[#001233] leading-relaxed">{msg.text}</p>
+                                                <span className="text-[10px] items-center gap-1 font-bold text-blue-500 uppercase mt-3 tracking-widest flex"><Info size={12} /> Matchy Assistant • {msg.time}</span>
                                             </div>
                                         </div>
-                                    </div>
+                                    ) : (
+                                        <div key={msg.id} className={`flex ${msg.sent ? 'justify-end' : 'justify-start'}`}>
+                                            <div className={`max-w-[80%] ${msg.sent ? 'order-2' : ''}`}>
+                                                <div className={`p-5 rounded-[28px] text-sm font-semibold shadow-sm ${msg.sent
+                                                    ? 'bg-[#001233] text-white rounded-tr-none'
+                                                    : 'bg-white text-[#001233] border border-gray-100 rounded-tl-none'
+                                                    }`}>
+                                                    {msg.text}
+                                                </div>
+                                                <div className={`flex items-center gap-2 mt-2 px-2 ${msg.sent ? 'justify-end' : 'justify-start'}`}>
+                                                    <span className="text-[10px] font-bold text-gray-400 uppercase">{msg.time}</span>
+                                                    {msg.sent && <CheckCheck size={14} className="text-blue-500" />}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
                                 ))}
                             </div>
 
