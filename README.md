@@ -37,7 +37,7 @@ A built-in carbon impact calculator shows users exactly how much CO2 they've sav
    ```bash
    npm run dev
    ```
-5. **Open the App**: Navigate to [http://localhost:3000](http://localhost:3000)
+5. **Open the App**: Navigate to https://hamburg-hackathon-innovate-the-skie.vercel.app/
 
 ---
 *Created for the "Innovate the Skies and Beyond" Hackathon - Hamburg.*
